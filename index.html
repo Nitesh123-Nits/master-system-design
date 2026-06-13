@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Three Pillars of System Mastery</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --night: #09111A;
+  --deep: #0F1C26;
+  --card: #0D1820;
+  --card2: #111E2A;
+  --border: rgba(78,205,196,0.1);
+  --border2: rgba(255,255,255,0.06);
+  --moon: #D6E8EC;
+  --muted: rgba(180,210,215,0.45);
+  --teal: #4ECDC4;
+  --teal-dim: rgba(78,205,196,0.12);
+  --coral: #E8826A;
+  --coral-dim: rgba(232,130,106,0.12);
+  --gold: #D4A843;
+  --gold-dim: rgba(212,168,67,0.12);
+  --sage: #7EC8A0;
+  --text: #C8DDE2;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--night);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#cosmos { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+
+.wrapper {
+  position: relative;
+  z-index: 1;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px 100px;
+}
+
+/* ── HERO ── */
+.hero {
+  text-align: center;
+  padding: 64px 0 48px;
+}
+
+.hero-eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+
+.hero h1 {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(24px, 5vw, 42px);
+  font-weight: 700;
+  color: var(--moon);
+  letter-spacing: 0.03em;
+  line-height: 1.15;
+  margin-bottom: 12px;
+}
+
+.hero h1 em { font-style: normal; color: var(--teal); }
+.hero p {
+  font-size: 14px;
+  color: var(--muted);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin-bottom: 48px;
+}
+
+/* ── TRINITY SEALS ── */
+.trinity {
+  display: flex;
+  justify-content: center;
+  gap: clamp(16px, 4vw, 48px);
+  margin-bottom: 56px;
+  flex-wrap: wrap;
+}
+
+.seal-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.seal-wrap:hover { transform: translateY(-3px); }
+
+.seal-svg-wrap {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+.seal-svg-wrap svg { width: 100%; height: 100%; }
+
+.seal-inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.seal-pct {
+  font-family: 'Cinzel', serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.seal-sub {
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.seal-name {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+  max-width: 90px;
+  line-height: 1.4;
+}
+
+.seal-count {
+  font-size: 10px;
+  color: var(--muted);
+}
+
+/* ── GLOBAL STATS ── */
+.g-stats {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.g-stat { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.g-stat-num { font-family: 'Cinzel', serif; font-size: 28px; color: var(--moon); }
+.g-stat-lbl { font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.g-divider { width: 1px; height: 36px; background: var(--border2); align-self: center; }
+
+/* ── PILLAR TABS ── */
+.pillar-tabs {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 32px;
+}
+
+.ptab {
+  flex: 1;
+  padding: 14px 8px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-family: 'Cinzel', serif;
+  font-size: clamp(10px, 2vw, 13px);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: all 0.3s;
+  border-right: 1px solid var(--border2);
+  position: relative;
+}
+
+.ptab:last-child { border-right: none; }
+.ptab::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: transparent;
+  transition: background 0.3s;
+}
+
+.ptab[data-pillar="api"].active { color: var(--coral); background: var(--coral-dim); }
+.ptab[data-pillar="api"].active::after { background: var(--coral); }
+.ptab[data-pillar="db"].active { color: var(--gold); background: var(--gold-dim); }
+.ptab[data-pillar="db"].active::after { background: var(--gold); }
+.ptab[data-pillar="scale"].active { color: var(--teal); background: var(--teal-dim); }
+.ptab[data-pillar="scale"].active::after { background: var(--teal); }
+.ptab:not(.active):hover { background: rgba(255,255,255,0.03); color: var(--text); }
+
+/* ── PILLAR PANELS ── */
+.pillar-panel { display: none; }
+.pillar-panel.active { display: block; }
+
+/* ── PILLAR HEADER ── */
+.pillar-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 28px;
+  border-radius: 16px;
+  margin-bottom: 20px;
+  border: 1px solid;
+}
+
+.pillar-header.api { background: var(--coral-dim); border-color: rgba(232,130,106,0.2); }
+.pillar-header.db  { background: var(--gold-dim);  border-color: rgba(212,168,67,0.2); }
+.pillar-header.scale { background: var(--teal-dim); border-color: rgba(78,205,196,0.2); }
+
+.pillar-glyph {
+  font-size: 36px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.pillar-hinfo { flex: 1; }
+
+.pillar-hname {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(16px, 3vw, 22px);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.pillar-header.api .pillar-hname { color: var(--coral); }
+.pillar-header.db  .pillar-hname { color: var(--gold); }
+.pillar-header.scale .pillar-hname { color: var(--teal); }
+
+.pillar-hdesc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+  max-width: 560px;
+}
+
+.pillar-hprogress {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.pillar-hpct {
+  font-family: 'Cinzel', serif;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.pillar-header.api .pillar-hpct { color: var(--coral); }
+.pillar-header.db  .pillar-hpct { color: var(--gold); }
+.pillar-header.scale .pillar-hpct { color: var(--teal); }
+
+.pillar-hprog-lbl { font-size: 9px; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; }
+
+.pillar-prog-bar {
+  width: 80px;
+  height: 3px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 2px;
+  margin: 8px 0 0 auto;
+  overflow: hidden;
+}
+
+.pillar-prog-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.6s ease;
+}
+
+.pillar-header.api .pillar-prog-fill { background: var(--coral); }
+.pillar-header.db  .pillar-prog-fill { background: var(--gold); }
+.pillar-header.scale .pillar-prog-fill { background: var(--teal); }
+
+/* ── SECTION CARDS ── */
+.s-card {
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.s-card:hover { border-color: rgba(255,255,255,0.1); }
+.s-card.s-complete { box-shadow: 0 0 0 1px rgba(126,200,160,0.2) inset; }
+
+.s-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s;
+}
+
+.s-header:hover { background: rgba(255,255,255,0.015); }
+
+.s-icon-wrap {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+  border: 1px solid;
+}
+
+.api-color  { color: var(--coral); background: var(--coral-dim); border-color: rgba(232,130,106,0.2); }
+.db-color   { color: var(--gold);  background: var(--gold-dim);  border-color: rgba(212,168,67,0.2); }
+.scale-color{ color: var(--teal);  background: var(--teal-dim);  border-color: rgba(78,205,196,0.2); }
+
+.s-info { flex: 1; min-width: 0; }
+
+.s-eyebrow {
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 2px;
+}
+
+.s-title {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--moon);
+}
+
+.s-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.s-count { font-size: 11px; color: var(--muted); }
+
+.s-bar-wrap {
+  flex: 1;
+  max-width: 100px;
+  height: 2px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.s-bar { height: 100%; border-radius: 1px; transition: width 0.5s ease; }
+.api-bar   { background: var(--coral); }
+.db-bar    { background: var(--gold); }
+.scale-bar { background: var(--teal); }
+
+.s-chevron {
+  color: var(--muted);
+  font-size: 12px;
+  transition: transform 0.35s ease, color 0.2s;
+  flex-shrink: 0;
+}
+
+.s-card.s-open .s-chevron { transform: rotate(180deg); }
+
+/* ── TOPICS ── */
+.s-topics-wrap {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.55s cubic-bezier(0.4,0,0.2,1);
+}
+
+.s-card.s-open .s-topics-wrap { max-height: 3000px; }
+
+.s-topics-inner {
+  padding: 0 20px 20px;
+  border-top: 1px solid var(--border2);
+}
+
+/* section description */
+.s-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.7;
+  padding: 14px 0 10px;
+  border-bottom: 1px solid var(--border2);
+  margin-bottom: 14px;
+}
+
+.topics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.t-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border2);
+  background: rgba(255,255,255,0.01);
+  cursor: pointer;
+  transition: all 0.22s;
+}
+
+.t-item:hover { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.1); }
+
+.t-item.t-done.api-done   { background: rgba(232,130,106,0.06); border-color: rgba(232,130,106,0.2); }
+.t-item.t-done.db-done    { background: rgba(212,168,67,0.06);  border-color: rgba(212,168,67,0.2); }
+.t-item.t-done.scale-done { background: rgba(78,205,196,0.06);  border-color: rgba(78,205,196,0.2); }
+
+.t-check {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+  transition: all 0.25s;
+}
+
+.t-item.t-done.api-done   .t-check { background: var(--coral); border-color: var(--coral); }
+.t-item.t-done.db-done    .t-check { background: var(--gold);  border-color: var(--gold); }
+.t-item.t-done.scale-done .t-check { background: var(--teal);  border-color: var(--teal); }
+
+.t-check-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: transparent;
+  transition: background 0.2s;
+}
+
+.t-item.t-done .t-check-dot { background: white; }
+
+.t-body { flex: 1; min-width: 0; }
+
+.t-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.3;
+  margin-bottom: 3px;
+  transition: color 0.2s;
+}
+
+.t-item.t-done.api-done   .t-name { color: var(--coral); }
+.t-item.t-done.db-done    .t-name { color: var(--gold); }
+.t-item.t-done.scale-done .t-name { color: var(--teal); }
+
+.t-desc {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* tags */
+.t-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 5px; }
+.t-tag {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 20px;
+  border: 1px solid var(--border2);
+  color: var(--muted);
+}
+
+.tag-critical { border-color: rgba(232,130,106,0.3); color: var(--coral); }
+.tag-security { border-color: rgba(212,168,67,0.3); color: var(--gold); }
+.tag-perf     { border-color: rgba(78,205,196,0.3); color: var(--teal); }
+.tag-pattern  { border-color: rgba(126,200,160,0.3); color: var(--sage); }
+
+.s-actions {
+  display: flex;
+  gap: 8px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border2);
+}
+
+.btn-sm {
+  padding: 7px 14px;
+  border-radius: 7px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  border: 1px solid var(--border2);
+  background: transparent;
+  color: var(--muted);
+  transition: all 0.2s;
+}
+
+.btn-sm:hover { color: var(--sage); border-color: rgba(126,200,160,0.3); }
+.btn-sm.danger:hover { color: rgba(200,100,100,0.8); border-color: rgba(200,100,100,0.3); }
+
+/* ── SEARCH ── */
+.search-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+  align-items: center;
+}
+
+.search-wrap {
+  position: relative;
+  flex: 1;
+}
+
+.search-wrap input {
+  width: 100%;
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 11px 16px 11px 40px;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.search-wrap input::placeholder { color: var(--muted); }
+.search-wrap input:focus { border-color: rgba(78,205,196,0.3); }
+
+.s-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--deep);
+  border: 1px solid rgba(78,205,196,0.25);
+  color: var(--teal);
+  padding: 11px 24px;
+  border-radius: 40px;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  z-index: 999;
+  transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.4s;
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  .pillar-hprogress { display: none; }
+  .pillar-header { padding: 20px; }
+  .topics-grid { grid-template-columns: 1fr; }
+  .trinity { gap: 20px; }
+  .seal-svg-wrap { width: 80px; height: 80px; }
+  .g-divider { display: none; }
+  .s-header { padding: 14px 16px; }
+  .s-topics-inner { padding: 0 14px 16px; }
+  .ptab { font-size: 10px; padding: 12px 4px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.01ms !important; }
+}
+
+.hidden-card { display: none; }
+</style>
+</head>
+<body>
+
+<canvas id="cosmos"></canvas>
+
+<div class="wrapper">
+
+  <!-- HERO -->
+  <header class="hero">
+    <p class="hero-eyebrow">System Architecture Mastery Series</p>
+    <h1>The Three Pillars of<br><em>System Mastery</em></h1>
+    <p>API · Database · Scaling — A Complete Learning Codex</p>
+
+    <!-- TRINITY SEALS -->
+    <div class="trinity">
+      <div class="seal-wrap" onclick="switchPillar('api')">
+        <div class="seal-svg-wrap">
+          <svg viewBox="0 0 100 100">
+            <polygon points="50,4 95,27 95,73 50,96 5,73 5,27"
+              fill="none" stroke="rgba(232,130,106,0.12)" stroke-width="2"/>
+            <polygon points="50,4 95,27 95,73 50,96 5,73 5,27"
+              fill="none" stroke="var(--coral)" stroke-width="2"
+              stroke-dasharray="276" id="sealApi"
+              stroke-dashoffset="276"
+              style="transition:stroke-dashoffset 1.2s ease;filter:drop-shadow(0 0 6px rgba(232,130,106,0.5))"/>
+          </svg>
+          <div class="seal-inner">
+            <span class="seal-pct" style="color:var(--coral)" id="pctApi">0%</span>
+            <span class="seal-sub">mastered</span>
+          </div>
+        </div>
+        <span class="seal-name" style="color:var(--coral)">API Security & Optimization</span>
+        <span class="seal-count" id="cntApi">— topics</span>
+      </div>
+
+      <div class="seal-wrap" onclick="switchPillar('db')">
+        <div class="seal-svg-wrap">
+          <svg viewBox="0 0 100 100">
+            <polygon points="50,4 95,27 95,73 50,96 5,73 5,27"
+              fill="none" stroke="rgba(212,168,67,0.12)" stroke-width="2"/>
+            <polygon points="50,4 95,27 95,73 50,96 5,73 5,27"
+              fill="none" stroke="var(--gold)" stroke-width="2"
+              stroke-dasharray="276" id="sealDb"
+              stroke-dashoffset="276"
+              style="transition:stroke-dashoffset 1.2s ease;filter:drop-shadow(0 0 6px rgba(212,168,67,0.5))"/>
+          </svg>
+          <div class="seal-inner">
+            <span class="seal-pct" style="color:var(--gold)" id="pctDb">0%</span>
+            <span class="seal-sub">mastered</span>
+          </div>
+        </div>
+        <span class="seal-name" style="color:var(--gold)">Database Optimization</span>
+        <span class="seal-count" id="cntDb">— topics</span>
+      </div>
+
+      <div class="seal-wrap" onclick="switchPillar('scale')">
+        <div class="seal-svg-wrap">
+          <svg viewBox="0 0 100 100">
+            <polygon points="50,4 95,27 95,73 50,96 5,73 5,27"
+              fill="none" stroke="rgba(78,205,196,0.12)" stroke-width="2"/>
+            <polygon points="50,4 95,27 95,73 50,96 5,73 5,27"
+              fill="none" stroke="var(--teal)" stroke-width="2"
+              stroke-dasharray="276" id="sealScale"
+              stroke-dashoffset="276"
+              style="transition:stroke-dashoffset 1.2s ease;filter:drop-shadow(0 0 6px rgba(78,205,196,0.5))"/>
+          </svg>
+          <div class="seal-inner">
+            <span class="seal-pct" style="color:var(--teal)" id="pctScale">0%</span>
+            <span class="seal-sub">mastered</span>
+          </div>
+        </div>
+        <span class="seal-name" style="color:var(--teal)">Scaling Systems</span>
+        <span class="seal-count" id="cntScale">— topics</span>
+      </div>
+    </div>
+
+    <!-- GLOBAL STATS -->
+    <div class="g-stats">
+      <div class="g-stat"><span class="g-stat-num" id="gDone">0</span><span class="g-stat-lbl">Mastered</span></div>
+      <div class="g-divider"></div>
+      <div class="g-stat"><span class="g-stat-num" id="gTotal">0</span><span class="g-stat-lbl">Total Topics</span></div>
+      <div class="g-divider"></div>
+      <div class="g-stat"><span class="g-stat-num" id="gSections">0</span><span class="g-stat-lbl">Disciplines</span></div>
+    </div>
+  </header>
+
+  <!-- TABS -->
+  <div class="pillar-tabs">
+    <button class="ptab active" data-pillar="api" onclick="switchPillar('api')">⬡ API Security &amp; Optimization</button>
+    <button class="ptab" data-pillar="db" onclick="switchPillar('db')">◈ Database Optimization</button>
+    <button class="ptab" data-pillar="scale" onclick="switchPillar('scale')">✦ Scaling Systems</button>
+  </div>
+
+  <!-- PANELS -->
+  <div id="panelApi" class="pillar-panel active"></div>
+  <div id="panelDb" class="pillar-panel"></div>
+  <div id="panelScale" class="pillar-panel"></div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── DATA ─────────────────────────────────────────────────────
+
+const PILLARS = {
+  api: {
+    id: 'api',
+    glyph: '⬡',
+    name: 'API Security & Optimization',
+    desc: 'The art of crafting APIs that are both fast and fortified — designing interfaces that resist attack, scale gracefully, and respond with precision.',
+    colorClass: 'api-color',
+    barClass: 'api-bar',
+    doneClass: 'api-done',
+    accent: 'var(--coral)',
+    sections: [
+      {
+        id: 'api-design', icon: '◎', label: 'API Design Principles',
+        desc: 'The foundation of every great API is intentional design. These concepts ensure your API is intuitive, versionable, and contract-driven from day one.',
+        topics: [
+          { name: 'RESTful Resource Modeling', desc: 'Nouns not verbs, hierarchical resources, proper HTTP semantics', tags: ['pattern'] },
+          { name: 'OpenAPI / Swagger Spec', desc: 'Contract-first design with machine-readable API documentation', tags: ['pattern'] },
+          { name: 'API Versioning Strategies', desc: 'URI versioning, header versioning, content negotiation tradeoffs', tags: ['pattern'] },
+          { name: 'HATEOAS', desc: 'Hypermedia as engine of application state — self-describing APIs', tags: ['pattern'] },
+          { name: 'Idempotency Design', desc: 'Idempotency keys, safe retry semantics, PUT vs POST vs PATCH', tags: ['critical'] },
+          { name: 'Pagination Patterns', desc: 'Cursor-based, offset, keyset pagination and their performance tradeoffs', tags: ['perf'] },
+          { name: 'Request / Response Schema Design', desc: 'Envelope patterns, error shapes, consistent field naming conventions', tags: ['pattern'] },
+          { name: 'GraphQL vs REST vs gRPC', desc: 'When to choose each: flexibility, performance, and contract tradeoffs', tags: ['pattern'] },
+          { name: 'Backward Compatibility', desc: 'Additive-only changes, deprecation policy, sunset headers', tags: ['critical'] },
+        ]
+      },
+      {
+        id: 'api-auth', icon: '⬔', label: 'Authentication & Authorization',
+        desc: 'Identity is the first gate. These protocols determine who can call your API and what they are allowed to do — implemented correctly, they are invisible; incorrectly, they are catastrophic.',
+        topics: [
+          { name: 'OAuth 2.0 Flows', desc: 'Authorization code, client credentials, device, implicit — when each applies', tags: ['security', 'critical'] },
+          { name: 'OpenID Connect (OIDC)', desc: 'Identity layer on OAuth 2.0, ID tokens, UserInfo endpoint', tags: ['security'] },
+          { name: 'JWT — Structure & Validation', desc: 'Header/payload/signature, claim validation, algorithm confusion attacks', tags: ['security', 'critical'] },
+          { name: 'JWT — Refresh Token Strategy', desc: 'Token rotation, silent refresh, revocation via denylist', tags: ['security'] },
+          { name: 'API Keys & HMAC Signing', desc: 'Key management, request signing, replay attack prevention', tags: ['security'] },
+          { name: 'mTLS (Mutual TLS)', desc: 'Certificate-based service-to-service auth, when to use over JWT', tags: ['security'] },
+          { name: 'RBAC vs ABAC', desc: 'Role-based vs attribute-based access control — granularity tradeoffs', tags: ['security', 'pattern'] },
+          { name: 'Scopes & Claims Design', desc: 'Principle of least privilege, audience restriction, claim enrichment', tags: ['security'] },
+          { name: 'Session vs Token Auth', desc: 'Stateful sessions vs stateless JWTs — scaling and revocation implications', tags: ['security'] },
+        ]
+      },
+      {
+        id: 'api-security', icon: '⬡', label: 'API Security Hardening',
+        desc: 'Defense in depth for your API surface. Every exposed endpoint is an attack vector — these practices reduce the blast radius of any breach.',
+        topics: [
+          { name: 'OWASP API Security Top 10', desc: 'Broken object/function auth, excessive data exposure, mass assignment', tags: ['security', 'critical'] },
+          { name: 'Input Validation & Sanitization', desc: 'Schema validation, injection prevention, safe deserialization', tags: ['security', 'critical'] },
+          { name: 'SQL Injection Prevention', desc: 'Parameterized queries, ORM safety, stored procedure risks', tags: ['security', 'critical'] },
+          { name: 'XSS & CSRF Protection', desc: 'Content-Security-Policy, SameSite cookies, CSRF tokens', tags: ['security'] },
+          { name: 'TLS/HTTPS Everywhere', desc: 'Certificate pinning, HSTS, cipher suite selection, TLS 1.3', tags: ['security'] },
+          { name: 'Secrets Management', desc: 'Vault, AWS Secrets Manager, environment variable risks, rotation', tags: ['security', 'critical'] },
+          { name: 'Security Headers', desc: 'CORS policy, X-Frame-Options, Content-Type-Options, Referrer-Policy', tags: ['security'] },
+          { name: 'Audit Logging', desc: 'Who did what when — structured auth logs, tamper-evident storage', tags: ['security'] },
+          { name: 'Zero Trust Architecture', desc: 'Never trust, always verify — microsegmentation, identity-aware proxy', tags: ['security', 'pattern'] },
+        ]
+      },
+      {
+        id: 'api-ratelimit', icon: '◈', label: 'Rate Limiting & Throttling',
+        desc: 'Traffic control is both a security and availability concern. These techniques protect your system from abuse while ensuring fair access for legitimate clients.',
+        topics: [
+          { name: 'Fixed Window Rate Limiting', desc: 'Simple counters per time window — burst vulnerability at window edge', tags: ['pattern'] },
+          { name: 'Sliding Window Algorithm', desc: 'Smoother rate limiting using rolling time windows', tags: ['pattern', 'perf'] },
+          { name: 'Token Bucket Algorithm', desc: 'Allows controlled bursting — the most production-common approach', tags: ['pattern', 'critical'] },
+          { name: 'Leaky Bucket Algorithm', desc: 'Smooths out traffic spikes into constant output rate', tags: ['pattern'] },
+          { name: 'Distributed Rate Limiting', desc: 'Redis-backed limits across multiple API nodes — Lua scripts, INCR', tags: ['perf', 'critical'] },
+          { name: 'Per-Client vs Global Limits', desc: 'IP-based, user-based, API-key-based limit strategies', tags: ['pattern'] },
+          { name: 'Throttling vs Rate Limiting', desc: 'Soft throttling with degraded responses vs hard rejection', tags: ['pattern'] },
+          { name: 'Backpressure Signaling', desc: 'Retry-After headers, 429 responses, Exponential backoff on clients', tags: ['pattern'] },
+        ]
+      },
+      {
+        id: 'api-perf', icon: '✦', label: 'API Performance Optimization',
+        desc: 'Speed is a feature. These techniques reduce latency, minimize payload size, and make your APIs resilient under load.',
+        topics: [
+          { name: 'Response Compression', desc: 'Gzip / Brotli compression, Content-Encoding, size vs CPU tradeoff', tags: ['perf'] },
+          { name: 'HTTP Caching Headers', desc: 'Cache-Control, ETag, Last-Modified, conditional requests', tags: ['perf', 'critical'] },
+          { name: 'Connection Pooling', desc: 'Keep-Alive, HTTP/2 multiplexing, connection limits per upstream', tags: ['perf'] },
+          { name: 'HTTP/2 and HTTP/3', desc: 'Multiplexing, header compression, QUIC protocol for low latency', tags: ['perf'] },
+          { name: 'Payload Optimization', desc: 'Field filtering, sparse fieldsets, projection queries', tags: ['perf'] },
+          { name: 'Async APIs & Webhooks', desc: 'Long-polling, WebSockets, SSE, webhook delivery guarantees', tags: ['pattern', 'perf'] },
+          { name: 'CDN for APIs', desc: 'Edge caching, geo-routing, cache invalidation strategies at CDN', tags: ['perf'] },
+          { name: 'Bulk & Batch Endpoints', desc: 'Reducing round trips with batch operations, compound documents', tags: ['perf', 'pattern'] },
+          { name: 'N+1 Query Detection', desc: 'DataLoader pattern, eager loading, query analysis in ORMs', tags: ['perf', 'critical'] },
+        ]
+      },
+      {
+        id: 'api-gateway', icon: '⬡', label: 'API Gateway Patterns',
+        desc: 'The gateway is the front door to your entire backend. Getting this layer right means consistent security, routing, and observability across all services.',
+        topics: [
+          { name: 'API Gateway Responsibilities', desc: 'Auth, routing, rate limiting, SSL termination, request transformation', tags: ['pattern'] },
+          { name: 'Backend for Frontend (BFF)', desc: 'Purpose-built gateways per client type — mobile vs web vs partner', tags: ['pattern'] },
+          { name: 'Request Aggregation', desc: 'Composing multiple downstream calls into one client response', tags: ['pattern'] },
+          { name: 'Circuit Breaker at Gateway', desc: 'Preventing cascade failures — Hystrix, Resilience4j, gateway-level', tags: ['critical', 'pattern'] },
+          { name: 'Kong / AWS API Gateway / Envoy', desc: 'Tool comparison — plugin ecosystems, performance, config models', tags: ['pattern'] },
+          { name: 'Service Mesh vs API Gateway', desc: 'East-west vs north-south traffic — where each belongs', tags: ['pattern'] },
+          { name: 'Observability at the Gateway', desc: 'Access logs, request tracing, error rate dashboards per route', tags: ['perf'] },
+        ]
+      },
+    ]
+  },
+
+  db: {
+    id: 'db',
+    glyph: '◈',
+    name: 'Database Optimization',
+    desc: 'The deepest layer of most systems — databases are where milliseconds are won or lost. These disciplines transform slow queries and brittle schemas into resilient, high-throughput data engines.',
+    colorClass: 'db-color',
+    barClass: 'db-bar',
+    doneClass: 'db-done',
+    accent: 'var(--gold)',
+    sections: [
+      {
+        id: 'db-indexing', icon: '◎', label: 'Indexing & Query Optimization',
+        desc: 'Indexes are the single highest-leverage tool in database performance. Understanding their internals reveals why queries are fast or slow — and how to fix them.',
+        topics: [
+          { name: 'B-Tree Index Internals', desc: 'How B-trees store keys, page splits, index height vs scan cost', tags: ['perf', 'critical'] },
+          { name: 'Composite Index Design', desc: 'Column order matters — leading column rule, covering indexes', tags: ['perf', 'critical'] },
+          { name: 'Index Selectivity', desc: 'High vs low cardinality, when indexes hurt more than help', tags: ['perf'] },
+          { name: 'EXPLAIN / EXPLAIN ANALYZE', desc: 'Reading query plans — seq scan vs index scan vs bitmap scan', tags: ['perf', 'critical'] },
+          { name: 'Partial & Filtered Indexes', desc: 'Index a subset of rows — smaller, faster, more selective', tags: ['perf'] },
+          { name: 'Covering Indexes', desc: 'Index-only scans — avoid heap fetches entirely', tags: ['perf'] },
+          { name: 'Hash Indexes', desc: 'O(1) equality lookups — when to use over B-tree', tags: ['perf'] },
+          { name: 'GIN / GiST Indexes', desc: 'Full-text search, JSONB queries, geometric data in PostgreSQL', tags: ['perf'] },
+          { name: 'Index Bloat & Maintenance', desc: 'Dead tuples, VACUUM, REINDEX, pg_stat_user_indexes', tags: ['perf'] },
+          { name: 'Slow Query Log Analysis', desc: 'Identifying regressions, pg_stat_statements, MySQL slow log', tags: ['perf', 'critical'] },
+        ]
+      },
+      {
+        id: 'db-schema', icon: '⬡', label: 'Schema Design & Normalization',
+        desc: 'The schema is a commitment — changing it later is expensive. These principles guide you toward designs that survive growth without becoming unmaintainable.',
+        topics: [
+          { name: '1NF / 2NF / 3NF / BCNF', desc: 'Normal forms demystified — eliminating redundancy and anomalies', tags: ['pattern'] },
+          { name: 'Denormalization Patterns', desc: 'Intentional redundancy for read performance — when it pays off', tags: ['perf', 'pattern'] },
+          { name: 'JSONB vs Relational Columns', desc: 'Flexible schema in PostgreSQL — indexing JSONB, performance costs', tags: ['pattern'] },
+          { name: 'Surrogate vs Natural Keys', desc: 'UUID vs sequential ID vs composite keys — implications for indexing', tags: ['pattern'] },
+          { name: 'Soft Delete Patterns', desc: 'deleted_at column, filtered indexes, impact on query complexity', tags: ['pattern'] },
+          { name: 'Temporal Tables', desc: 'Bitemporal data, system-time versioning, audit history schemas', tags: ['pattern'] },
+          { name: 'Polymorphic Associations', desc: 'STI vs CTI vs JSON — modeling inheritance in relational DBs', tags: ['pattern'] },
+          { name: 'Schema Migrations Strategy', desc: 'Backward-compatible migrations, expand-contract pattern, zero downtime', tags: ['critical', 'pattern'] },
+        ]
+      },
+      {
+        id: 'db-transactions', icon: '⬔', label: 'Transactions & Concurrency',
+        desc: 'Concurrency bugs are subtle and catastrophic. Mastering isolation levels and locking mechanisms is essential for building correct, high-throughput systems.',
+        topics: [
+          { name: 'ACID Properties Deep Dive', desc: 'Atomicity, consistency, isolation, durability — what each actually guarantees', tags: ['critical'] },
+          { name: 'Isolation Levels', desc: 'Read uncommitted → serializable — anomalies each level prevents', tags: ['critical'] },
+          { name: 'Dirty Reads, Phantom Reads, Lost Updates', desc: 'Concrete examples of concurrency anomalies and their fixes', tags: ['critical'] },
+          { name: 'MVCC (Multi-Version Concurrency)', desc: 'How PostgreSQL/MySQL avoid read locks — snapshot isolation internals', tags: ['perf', 'critical'] },
+          { name: 'Optimistic vs Pessimistic Locking', desc: 'Version columns vs SELECT FOR UPDATE — throughput vs contention', tags: ['pattern', 'critical'] },
+          { name: 'Deadlock Detection & Prevention', desc: 'Lock ordering, deadlock graphs, retry logic, lock timeouts', tags: ['critical'] },
+          { name: 'Long-Running Transactions', desc: 'Table bloat, lock escalation, vacuum starvation in PostgreSQL', tags: ['perf'] },
+          { name: 'Savepoints & Nested Transactions', desc: 'Partial rollback within a transaction — use cases and caveats', tags: ['pattern'] },
+          { name: 'Two-Phase Commit (2PC)', desc: 'Distributed transaction coordination — performance cost, failure modes', tags: ['critical'] },
+        ]
+      },
+      {
+        id: 'db-replication', icon: '◈', label: 'Replication & High Availability',
+        desc: 'A single database is a single point of failure. Replication strategies determine how data flows across nodes and what guarantees you can make about durability.',
+        topics: [
+          { name: 'Synchronous vs Async Replication', desc: 'Durability guarantee vs latency tradeoff — RPO / RTO implications', tags: ['critical'] },
+          { name: 'Primary / Replica (Read Replicas)', desc: 'Replica lag, read-your-writes consistency, routing strategies', tags: ['perf', 'critical'] },
+          { name: 'Streaming Replication (PostgreSQL)', desc: 'WAL shipping, pg_basebackup, replication slots, lag monitoring', tags: ['perf'] },
+          { name: 'Logical Replication', desc: 'Table-level replication, publication/subscription, CDC use cases', tags: ['pattern'] },
+          { name: 'Multi-Primary Replication', desc: 'Write conflict resolution, Galera Cluster, Aurora Multi-Master', tags: ['pattern'] },
+          { name: 'Failover Automation', desc: 'Patroni, Pacemaker, AWS RDS failover — detection and promotion', tags: ['critical'] },
+          { name: 'Connection Pooling (PgBouncer / ProxySQL)', desc: 'Transaction vs session mode, pool sizing, prepared statement caveats', tags: ['perf', 'critical'] },
+          { name: 'Backup Strategies', desc: 'pg_dump vs WAL-G vs snapshot — RTO, RPO, and restore testing', tags: ['critical'] },
+        ]
+      },
+      {
+        id: 'db-sharding', icon: '✦', label: 'Sharding & Partitioning',
+        desc: 'When a single node reaches its limits, you partition — dividing data across many nodes. These techniques decide where each row lives and how you find it again.',
+        topics: [
+          { name: 'Horizontal Partitioning (Sharding)', desc: 'Distributing rows across nodes — shard key choice is everything', tags: ['critical', 'pattern'] },
+          { name: 'Shard Key Selection', desc: 'Cardinality, write distribution, hotspot avoidance, future-proofing', tags: ['critical'] },
+          { name: 'Consistent Hashing for Shards', desc: 'Virtual nodes, rebalancing without full resharding', tags: ['pattern'] },
+          { name: 'Range vs Hash Sharding', desc: 'Sequential access vs uniform distribution — workload-dependent choice', tags: ['pattern'] },
+          { name: 'PostgreSQL Table Partitioning', desc: 'Declarative partitioning — range, list, hash — partition pruning', tags: ['perf'] },
+          { name: 'Cross-Shard Queries', desc: 'Scatter-gather queries, distributed joins, the cost of global operations', tags: ['perf', 'critical'] },
+          { name: 'Resharding Strategies', desc: 'Double-write, backfill, dual-read migration — live resharding without downtime', tags: ['critical'] },
+          { name: 'Vitess / Citus', desc: 'Sharding middleware for MySQL and PostgreSQL at scale', tags: ['pattern'] },
+        ]
+      },
+      {
+        id: 'db-caching', icon: '⬡', label: 'Database Caching Patterns',
+        desc: 'The fastest query is the one you never make. These caching strategies intercept reads before they hit the database, dramatically reducing load and latency.',
+        topics: [
+          { name: 'Cache-Aside (Lazy Loading)', desc: 'App reads cache first, falls back to DB, populates cache on miss', tags: ['pattern', 'critical'] },
+          { name: 'Write-Through Cache', desc: 'Every write goes to both cache and DB — strong consistency', tags: ['pattern'] },
+          { name: 'Write-Behind (Write-Back)', desc: 'Write to cache async, batch flush to DB — risk of data loss', tags: ['pattern'] },
+          { name: 'Read-Through Cache', desc: 'Cache sits in front of DB, transparently handles misses', tags: ['pattern'] },
+          { name: 'Cache Invalidation Strategies', desc: 'TTL, event-driven invalidation, cache versioning — the hard problem', tags: ['critical'] },
+          { name: 'Cache Stampede Prevention', desc: 'Probabilistic early expiry, distributed locks on miss, request coalescing', tags: ['perf', 'critical'] },
+          { name: 'Hot Key Problem', desc: 'Uneven cache load — local cache, key sharding, read replicas', tags: ['perf'] },
+          { name: 'Redis Data Structures for DB Caching', desc: 'Strings, Hashes, Sorted Sets, HyperLogLog — choosing the right type', tags: ['pattern'] },
+        ]
+      },
+      {
+        id: 'db-nosql', icon: '◎', label: 'NoSQL Optimization Patterns',
+        desc: 'NoSQL databases trade the flexibility of SQL for specific performance characteristics. Understanding these models ensures you exploit them — rather than fight them.',
+        topics: [
+          { name: 'DynamoDB Single-Table Design', desc: 'Access pattern-first modeling, partition keys, composite sort keys', tags: ['critical', 'pattern'] },
+          { name: 'Cassandra Data Modeling', desc: 'Query-driven design, partition size limits, wide rows, tombstones', tags: ['pattern', 'critical'] },
+          { name: 'MongoDB Index Optimization', desc: 'Compound indexes, covered queries, explain() output analysis', tags: ['perf'] },
+          { name: 'MongoDB Aggregation Pipeline', desc: '$match early, $project to reduce docs, index hints in pipeline', tags: ['perf'] },
+          { name: 'Redis Eviction Policies', desc: 'LRU, LFU, allkeys-lru, volatile-lru — choosing for your workload', tags: ['perf'] },
+          { name: 'Cassandra Anti-patterns', desc: 'ALLOW FILTERING, large partitions, secondary index pitfalls', tags: ['critical'] },
+          { name: 'Time-Series Optimization', desc: 'InfluxDB, TimescaleDB, downsampling, retention policies', tags: ['perf', 'pattern'] },
+        ]
+      },
+    ]
+  },
+
+  scale: {
+    id: 'scale',
+    glyph: '✦',
+    name: 'Scaling Systems',
+    desc: 'Building systems that grow without breaking — from 100 to 100 million requests. These disciplines turn fragile single-node architectures into distributed systems that scale horizontally and recover gracefully.',
+    colorClass: 'scale-color',
+    barClass: 'scale-bar',
+    doneClass: 'scale-done',
+    accent: 'var(--teal)',
+    sections: [
+      {
+        id: 'scale-fundamentals', icon: '◎', label: 'Scaling Fundamentals',
+        desc: 'Before you can scale, you must measure. These fundamentals establish the vocabulary and mental models that underpin every scaling decision.',
+        topics: [
+          { name: 'Vertical vs Horizontal Scaling', desc: 'Scale-up limits, scale-out coordination costs — knowing when to switch', tags: ['critical'] },
+          { name: 'Scalability vs Elasticity', desc: 'Design-time capacity vs runtime auto-scaling — different problems', tags: ['pattern'] },
+          { name: 'Latency vs Throughput', desc: 'P50/P95/P99 percentiles, Little\'s Law, queueing theory basics', tags: ['perf', 'critical'] },
+          { name: 'Bottleneck Identification', desc: 'USE method (Utilization, Saturation, Errors) for CPU, memory, I/O', tags: ['perf', 'critical'] },
+          { name: 'Amdahl\'s Law', desc: 'The fundamental limit of parallelization — why 100x scale is hard', tags: ['perf'] },
+          { name: 'Capacity Planning', desc: 'Load testing, traffic modeling, headroom strategy, cost per RPS', tags: ['critical'] },
+          { name: 'SLI / SLO / SLA', desc: 'Defining and measuring reliability — error budgets and burn rates', tags: ['critical', 'pattern'] },
+          { name: 'Thundering Herd Problem', desc: 'Cache expiry stampedes, connection storms — prevention techniques', tags: ['perf', 'critical'] },
+        ]
+      },
+      {
+        id: 'scale-lb', icon: '⬡', label: 'Load Balancing',
+        desc: 'Load balancers are the traffic directors of distributed systems. Choosing the right algorithm and placement determines how evenly — and how reliably — load is distributed.',
+        topics: [
+          { name: 'L4 vs L7 Load Balancing', desc: 'TCP-level vs HTTP-level routing — tradeoffs in visibility and cost', tags: ['pattern', 'critical'] },
+          { name: 'Round Robin & Weighted RR', desc: 'Simple distribution, static weights for heterogeneous nodes', tags: ['pattern'] },
+          { name: 'Least Connections', desc: 'Route to the node with fewest active connections — better for variable work', tags: ['pattern', 'perf'] },
+          { name: 'Consistent Hashing for LB', desc: 'Session affinity without central state — minimal disruption on node change', tags: ['pattern', 'perf'] },
+          { name: 'Health Checks & Circuit Breaking', desc: 'Active vs passive health probes, unhealthy ejection, recovery', tags: ['critical'] },
+          { name: 'Global Load Balancing (GSLB)', desc: 'Geo-routing, latency-based routing, failover across regions', tags: ['pattern'] },
+          { name: 'Sticky Sessions', desc: 'Session affinity tradeoffs — server memory vs distributed session store', tags: ['pattern'] },
+          { name: 'HAProxy / NGINX / AWS ALB / Envoy', desc: 'Tool comparison — performance characteristics, config model, observability', tags: ['pattern'] },
+        ]
+      },
+      {
+        id: 'scale-caching', icon: '⬔', label: 'Distributed Caching at Scale',
+        desc: 'Caching is one of the most effective scaling tools — but distributed caching introduces coordination challenges that can undermine the very gains you seek.',
+        topics: [
+          { name: 'Redis Cluster Architecture', desc: 'Hash slots, node roles, resharding — how Redis distributes data', tags: ['critical', 'pattern'] },
+          { name: 'Memcached at Scale', desc: 'Simple, multi-threaded, no persistence — when it beats Redis', tags: ['perf', 'pattern'] },
+          { name: 'Cache Topology Patterns', desc: 'Local L1 + distributed L2, regional caches, write-through hierarchies', tags: ['pattern'] },
+          { name: 'Cache Warming Strategies', desc: 'Cold start problem, pre-warming, gradual traffic shift', tags: ['perf', 'critical'] },
+          { name: 'Consistent Hashing in Caches', desc: 'Minimizing key remapping when cache nodes join or leave', tags: ['pattern'] },
+          { name: 'Multi-Region Cache Coherence', desc: 'Cache invalidation across regions — eventual consistency tradeoffs', tags: ['critical'] },
+          { name: 'Local In-Process Caching', desc: 'Caffeine, Guava Cache — when network round-trips are too slow', tags: ['perf'] },
+        ]
+      },
+      {
+        id: 'scale-async', icon: '◈', label: 'Async Architecture & Message Queues',
+        desc: 'Decoupling producers from consumers is the primary mechanism for absorbing load spikes. These patterns transform tight synchronous dependencies into resilient, independently scalable flows.',
+        topics: [
+          { name: 'Message Queue vs Event Bus', desc: 'Point-to-point vs publish-subscribe — routing, retention, replay', tags: ['pattern', 'critical'] },
+          { name: 'Kafka Partitioning Strategy', desc: 'Partition count, key-based routing, consumer group parallelism', tags: ['critical', 'perf'] },
+          { name: 'Consumer Group Scaling', desc: 'Adding consumers up to partition count — backlog recovery strategies', tags: ['perf'] },
+          { name: 'At-Least-Once vs Exactly-Once', desc: 'Delivery semantics, idempotent consumers, transactional producers', tags: ['critical'] },
+          { name: 'Dead Letter Queues (DLQ)', desc: 'Poison message handling, retry policies, DLQ alerting', tags: ['critical', 'pattern'] },
+          { name: 'Outbox Pattern', desc: 'Atomic write + event publication without distributed transactions', tags: ['critical', 'pattern'] },
+          { name: 'Event Sourcing at Scale', desc: 'Snapshots for long streams, event schema evolution, CQRS read models', tags: ['pattern'] },
+          { name: 'Backpressure Implementation', desc: 'Reactive streams, flow control, dropping vs buffering vs blocking', tags: ['perf', 'critical'] },
+          { name: 'RabbitMQ vs Kafka vs SQS', desc: 'Feature comparison — latency, throughput, durability, operational cost', tags: ['pattern'] },
+        ]
+      },
+      {
+        id: 'scale-resilience', icon: '✦', label: 'Resilience Patterns',
+        desc: 'Failures are inevitable at scale. Resilience patterns determine whether a single failure causes a minor blip or a cascading system-wide outage.',
+        topics: [
+          { name: 'Circuit Breaker Pattern', desc: 'Closed → Open → Half-Open states, failure thresholds, Resilience4j', tags: ['critical', 'pattern'] },
+          { name: 'Retry with Exponential Backoff', desc: 'Jitter, max retries, retry budget — avoiding retry storms', tags: ['critical', 'pattern'] },
+          { name: 'Bulkhead Pattern', desc: 'Thread pool / semaphore isolation — containing failures to one consumer', tags: ['pattern'] },
+          { name: 'Timeout Patterns', desc: 'Connect vs read timeout, cascading timeout budgets, deadline propagation', tags: ['critical'] },
+          { name: 'Fallback & Graceful Degradation', desc: 'Cached responses, default values, feature flags for degraded mode', tags: ['pattern'] },
+          { name: 'Chaos Engineering', desc: 'Chaos Monkey, Gremlin, fault injection — building confidence in resilience', tags: ['pattern'] },
+          { name: 'Health Checks (Liveness vs Readiness)', desc: 'Kubernetes probe design, dependency checks, circuit state in health', tags: ['critical'] },
+          { name: 'Saga Pattern for Distributed Transactions', desc: 'Choreography vs orchestration, compensating transactions', tags: ['critical', 'pattern'] },
+        ]
+      },
+      {
+        id: 'scale-data', icon: '⬡', label: 'Data Layer Scaling',
+        desc: 'Scaling stateless services is straightforward. Scaling stateful data systems — where every node must agree on truth — is the deep challenge of distributed systems.',
+        topics: [
+          { name: 'CQRS at Scale', desc: 'Separate write and read models — independent scaling, eventual consistency', tags: ['critical', 'pattern'] },
+          { name: 'Database Sharding Strategies', desc: 'Application-level vs middleware-level sharding, resharding without downtime', tags: ['critical'] },
+          { name: 'Read Replica Routing', desc: 'Replica lag measurement, stale read tolerance, routing middleware', tags: ['perf'] },
+          { name: 'Distributed SQL (CockroachDB / Spanner)', desc: 'Serializable distributed transactions without application-level sharding', tags: ['pattern'] },
+          { name: 'Data Locality', desc: 'Co-locating computation with data — minimizing network hops', tags: ['perf'] },
+          { name: 'Hot Partition Mitigation', desc: 'Write spreading, key salting, adaptive sharding', tags: ['perf', 'critical'] },
+          { name: 'Global Data Strategies', desc: 'Active-active vs active-passive, conflict-free replicated data types (CRDTs)', tags: ['pattern'] },
+        ]
+      },
+      {
+        id: 'scale-infra', icon: '◎', label: 'Infrastructure Scaling',
+        desc: 'Modern infrastructure scales automatically — but only if designed to. These concepts ensure your compute, networking, and deployment strategy matches your traffic patterns.',
+        topics: [
+          { name: 'Horizontal Pod Autoscaler (HPA)', desc: 'CPU/memory-based, custom metrics (RPS, queue depth), scale-down delay', tags: ['perf', 'critical'] },
+          { name: 'Vertical Pod Autoscaler (VPA)', desc: 'Right-sizing containers, resource request tuning, VPA modes', tags: ['perf'] },
+          { name: 'KEDA — Event-Driven Autoscaling', desc: 'Scale to zero on queue depth, Kafka lag, custom external metrics', tags: ['perf', 'pattern'] },
+          { name: 'Cluster Autoscaler', desc: 'Node provisioning based on pending pods — cloud provider integration', tags: ['perf'] },
+          { name: 'Spot / Preemptible Instance Strategy', desc: '70%+ cost savings with graceful termination handling', tags: ['perf', 'pattern'] },
+          { name: 'CDN Architecture', desc: 'Edge caching, origin shield, cache invalidation, geo-distribution', tags: ['perf'] },
+          { name: 'Service Mesh (Istio/Linkerd)', desc: 'mTLS, traffic splitting, observability, retries at the mesh layer', tags: ['pattern'] },
+          { name: 'Multi-Region Active-Active', desc: 'Data replication lag, conflict resolution, global load balancing', tags: ['critical', 'pattern'] },
+          { name: 'Cell-Based Architecture', desc: 'Blast radius reduction, independent cell scaling, routing shards', tags: ['pattern'] },
+        ]
+      },
+      {
+        id: 'scale-observe', icon: '⬔', label: 'Observability for Scale',
+        desc: 'At scale, you cannot observe every instance — you must observe the emergent behavior of the system. These tools and practices make the invisible visible.',
+        topics: [
+          { name: 'RED Method (Rate, Errors, Duration)', desc: 'The three signals for service health — latency histograms, error rates', tags: ['critical', 'perf'] },
+          { name: 'USE Method (Utilization, Saturation, Errors)', desc: 'Resource-oriented monitoring — CPU runqueue, memory OOM, disk I/O', tags: ['perf'] },
+          { name: 'Distributed Tracing', desc: 'Span propagation, sampling strategies, trace-based alerting (Jaeger/Tempo)', tags: ['critical'] },
+          { name: 'OpenTelemetry at Scale', desc: 'Collector architecture, sampling, metric cardinality control', tags: ['pattern', 'perf'] },
+          { name: 'SLO-Based Alerting', desc: 'Error budget burn rate alerts vs threshold alerts — fewer false positives', tags: ['critical'] },
+          { name: 'Cardinality in Metrics', desc: 'High-cardinality label explosion in Prometheus — design guardrails', tags: ['perf', 'critical'] },
+          { name: 'Log Aggregation at Scale', desc: 'Fluentd/Fluent Bit, Loki, Elasticsearch — sampling, retention cost', tags: ['perf'] },
+          { name: 'On-Call & Incident Response', desc: 'Runbooks, escalation policies, blameless postmortems, chaos drills', tags: ['critical'] },
+        ]
+      },
+    ]
+  }
+};
+
+// ── STATE ─────────────────────────────────────────────────────
+const STORE = 'mastery_v1';
+let state = {};
+
+function loadState() {
+  try { state = JSON.parse(localStorage.getItem(STORE)) || {}; } catch { state = {}; }
+}
+
+function saveState() { localStorage.setItem(STORE, JSON.stringify(state)); }
+
+function isDone(pillar, secId, topic) {
+  return !!(state[pillar] && state[pillar][secId] && state[pillar][secId][topic]);
+}
+
+function toggle(pillar, secId, topic) {
+  if (!state[pillar]) state[pillar] = {};
+  if (!state[pillar][secId]) state[pillar][secId] = {};
+  state[pillar][secId][topic] = !state[pillar][secId][topic];
+  if (!state[pillar][secId][topic]) delete state[pillar][secId][topic];
+  saveState();
+}
+
+function markAllSec(pillar, secId, done) {
+  const sec = PILLARS[pillar].sections.find(s => s.id === secId);
+  if (!sec) return;
+  if (!state[pillar]) state[pillar] = {};
+  if (done) {
+    state[pillar][secId] = {};
+    sec.topics.forEach(t => { state[pillar][secId][t.name] = true; });
+  } else {
+    delete state[pillar][secId];
+  }
+  saveState();
+}
+
+// ── COUNTS ───────────────────────────────────────────────────
+function pillarStats(pid) {
+  const p = PILLARS[pid];
+  let done = 0, total = 0;
+  p.sections.forEach(sec => {
+    sec.topics.forEach(t => {
+      total++;
+      if (isDone(pid, sec.id, t.name)) done++;
+    });
+  });
+  return { done, total };
+}
+
+function globalStats() {
+  let done = 0, total = 0, secs = 0;
+  Object.keys(PILLARS).forEach(pid => {
+    const { done: d, total: t } = pillarStats(pid);
+    done += d; total += t;
+    secs += PILLARS[pid].sections.length;
+  });
+  return { done, total, secs };
+}
+
+// ── RENDER PILLAR ─────────────────────────────────────────────
+function renderPillar(pid) {
+  const p = PILLARS[pid];
+  const panel = document.getElementById('panel' + pid.charAt(0).toUpperCase() + pid.slice(1));
+  panel.innerHTML = '';
+
+  // header
+  const { done, total } = pillarStats(pid);
+  const pct = total ? Math.round(done / total * 100) : 0;
+
+  const hdr = document.createElement('div');
+  hdr.className = `pillar-header ${pid}`;
+  hdr.id = `hdr-${pid}`;
+  hdr.innerHTML = `
+    <div class="pillar-glyph">${p.glyph}</div>
+    <div class="pillar-hinfo">
+      <div class="pillar-hname">${p.name}</div>
+      <div class="pillar-hdesc">${p.desc}</div>
+    </div>
+    <div class="pillar-hprogress">
+      <div class="pillar-hpct" id="hpct-${pid}">${pct}%</div>
+      <div class="pillar-hprog-lbl">${done} / ${total} mastered</div>
+      <div class="pillar-prog-bar"><div class="pillar-prog-fill" id="hbar-${pid}" style="width:${pct}%"></div></div>
+    </div>
+  `;
+  panel.appendChild(hdr);
+
+  // search
+  const sr = document.createElement('div');
+  sr.className = 'search-row';
+  sr.innerHTML = `
+    <div class="search-wrap">
+      <span class="s-icon">⌕</span>
+      <input type="text" placeholder="Search within this pillar…" id="search-${pid}">
+    </div>
+  `;
+  panel.appendChild(sr);
+
+  sr.querySelector('input').addEventListener('input', function() {
+    const q = this.value.toLowerCase().trim();
+    panel.querySelectorAll('.s-card').forEach(card => {
+      const matches = !q || card.dataset.title.toLowerCase().includes(q) ||
+        [...card.querySelectorAll('.t-name')].some(n => n.textContent.toLowerCase().includes(q));
+      card.classList.toggle('hidden-card', !matches);
+      if (matches && q) {
+        card.querySelectorAll('.t-item').forEach(item => {
+          const tn = item.querySelector('.t-name').textContent.toLowerCase();
+          item.style.opacity = tn.includes(q) ? '1' : '0.4';
+        });
+      } else {
+        card.querySelectorAll('.t-item').forEach(item => item.style.opacity = '1');
+      }
+    });
+  });
+
+  // sections
+  p.sections.forEach(sec => {
+    const secDone = sec.topics.filter(t => isDone(pid, sec.id, t.name)).length;
+    const secTotal = sec.topics.length;
+    const secPct = secTotal ? secDone / secTotal : 0;
+    const isComplete = secDone === secTotal;
+
+    const card = document.createElement('div');
+    card.className = `s-card${isComplete ? ' s-complete' : ''}`;
+    card.dataset.secId = sec.id;
+    card.dataset.pid = pid;
+    card.dataset.title = sec.label;
+
+    card.innerHTML = `
+      <div class="s-header">
+        <div class="s-icon-wrap ${pid}-color">${sec.icon}</div>
+        <div class="s-info">
+          <div class="s-eyebrow">${p.name}</div>
+          <div class="s-title">${sec.label}</div>
+          <div class="s-meta">
+            <span class="s-count">${secDone} / ${secTotal}</span>
+            <div class="s-bar-wrap"><div class="s-bar ${pid}-bar" style="width:${secPct*100}%"></div></div>
+          </div>
+        </div>
+        <span class="s-chevron">▾</span>
+      </div>
+      <div class="s-topics-wrap">
+        <div class="s-topics-inner">
+          <div class="s-desc">${sec.desc}</div>
+          <div class="topics-grid">
+            ${sec.topics.map(t => `
+              <div class="t-item ${isDone(pid, sec.id, t.name) ? `t-done ${pid}-done` : ''}" data-topic="${escHtml(t.name)}">
+                <div class="t-check"><div class="t-check-dot"></div></div>
+                <div class="t-body">
+                  <div class="t-name">${escHtml(t.name)}</div>
+                  <div class="t-desc">${escHtml(t.desc)}</div>
+                  <div class="t-tags">${(t.tags||[]).map(tag => `<span class="t-tag tag-${tag}">${tag}</span>`).join('')}</div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+          <div class="s-actions">
+            <button class="btn-sm btn-mark-all">Mark all complete</button>
+            <button class="btn-sm danger btn-clear-sec">Clear section</button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // toggle
+    card.querySelector('.s-header').addEventListener('click', () => {
+      card.classList.toggle('s-open');
+    });
+
+    // topic click
+    card.querySelectorAll('.t-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const tname = item.dataset.topic;
+        toggle(pid, sec.id, tname);
+        item.classList.toggle('t-done');
+        item.classList.toggle(`${pid}-done`);
+        updateCardMeta(card, pid, sec);
+        updatePillarHeader(pid);
+        updateSeals();
+        updateGlobalStats();
+      });
+    });
+
+    card.querySelector('.btn-mark-all').addEventListener('click', e => {
+      e.stopPropagation();
+      markAllSec(pid, sec.id, true);
+      renderPillar(pid);
+      updateSeals();
+      updateGlobalStats();
+      showToast(`✦ ${sec.label} — mastered`);
+    });
+
+    card.querySelector('.btn-clear-sec').addEventListener('click', e => {
+      e.stopPropagation();
+      markAllSec(pid, sec.id, false);
+      renderPillar(pid);
+      updateSeals();
+      updateGlobalStats();
+    });
+
+    panel.appendChild(card);
+  });
+}
+
+function updateCardMeta(card, pid, sec) {
+  const secDone = sec.topics.filter(t => isDone(pid, sec.id, t.name)).length;
+  const secTotal = sec.topics.length;
+  card.querySelector('.s-count').textContent = `${secDone} / ${secTotal}`;
+  card.querySelector('.s-bar').style.width = `${(secDone / secTotal) * 100}%`;
+  card.classList.toggle('s-complete', secDone === secTotal);
+}
+
+function updatePillarHeader(pid) {
+  const { done, total } = pillarStats(pid);
+  const pct = total ? Math.round(done / total * 100) : 0;
+  const el = document.getElementById(`hpct-${pid}`);
+  const bar = document.getElementById(`hbar-${pid}`);
+  if (el) { el.textContent = `${pct}%`; el.nextElementSibling.textContent = `${done} / ${total} mastered`; }
+  if (bar) bar.style.width = `${pct}%`;
+}
+
+function updateSeals() {
+  ['api', 'db', 'scale'].forEach(pid => {
+    const { done, total } = pillarStats(pid);
+    const pct = total ? done / total : 0;
+    const offset = 276 - pct * 276;
+    const sealEl = document.getElementById('seal' + pid.charAt(0).toUpperCase() + pid.slice(1));
+    if (sealEl) sealEl.style.strokeDashoffset = offset;
+    const pctEl = document.getElementById('pct' + pid.charAt(0).toUpperCase() + pid.slice(1));
+    if (pctEl) pctEl.textContent = Math.round(pct * 100) + '%';
+    const cntEl = document.getElementById('cnt' + pid.charAt(0).toUpperCase() + pid.slice(1));
+    if (cntEl) cntEl.textContent = `${done} / ${total} topics`;
+  });
+}
+
+function updateGlobalStats() {
+  const { done, total, secs } = globalStats();
+  document.getElementById('gDone').textContent = done;
+  document.getElementById('gTotal').textContent = total;
+  document.getElementById('gSections').textContent = secs;
+}
+
+// ── TABS ─────────────────────────────────────────────────────
+function switchPillar(pid) {
+  document.querySelectorAll('.ptab').forEach(t => t.classList.toggle('active', t.dataset.pillar === pid));
+  document.querySelectorAll('.pillar-panel').forEach(p => p.classList.remove('active'));
+  const panelId = 'panel' + pid.charAt(0).toUpperCase() + pid.slice(1);
+  document.getElementById(panelId).classList.add('active');
+}
+
+// ── TOAST ────────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── COSMOS ───────────────────────────────────────────────────
+(function() {
+  const canvas = document.getElementById('cosmos');
+  const ctx = canvas.getContext('2d');
+  let W, H, stars = [], blobs = [];
+
+  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+
+  function init() {
+    stars = Array.from({length: 100}, () => ({
+      x: Math.random() * W, y: Math.random() * H,
+      r: Math.random() * 1.1 + 0.2,
+      phase: Math.random() * Math.PI * 2,
+      speed: Math.random() * 0.004 + 0.001
+    }));
+    blobs = Array.from({length: 14}, () => ({
+      x: Math.random() * W, y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.15, vy: (Math.random() - 0.5) * 0.15,
+      r: Math.random() * 80 + 30,
+      a: Math.random() * 0.035 + 0.008,
+      color: ['78,205,196','232,130,106','212,168,67','126,200,160'][Math.floor(Math.random()*4)]
+    }));
+  }
+
+  let t = 0;
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    t += 0.008;
+
+    blobs.forEach(b => {
+      b.x += b.vx; b.y += b.vy;
+      if (b.x < -b.r) b.x = W + b.r;
+      if (b.x > W + b.r) b.x = -b.r;
+      if (b.y < -b.r) b.y = H + b.r;
+      if (b.y > H + b.r) b.y = -b.r;
+      const g = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r);
+      g.addColorStop(0, `rgba(${b.color},${b.a})`);
+      g.addColorStop(1, `rgba(${b.color},0)`);
+      ctx.fillStyle = g;
+      ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2); ctx.fill();
+    });
+
+    stars.forEach(s => {
+      const alpha = 0.25 + 0.45 * Math.sin(t * s.speed * 120 + s.phase);
+      ctx.fillStyle = `rgba(190,215,225,${alpha})`;
+      ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2); ctx.fill();
+    });
+
+    requestAnimationFrame(draw);
+  }
+
+  resize(); init(); draw();
+  window.addEventListener('resize', () => { resize(); init(); });
+})();
+
+// ── INIT ─────────────────────────────────────────────────────
+loadState();
+renderPillar('api');
+renderPillar('db');
+renderPillar('scale');
+updateSeals();
+updateGlobalStats();
+</script>
+</body>
+</html>
