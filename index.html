@@ -23,6 +23,24 @@
   --gold-dim: rgba(212,168,67,0.12);
   --sage: #7EC8A0;
   --text: #C8DDE2;
+  --overlay: rgba(5,12,20,0.72);
+  --shadow: rgba(0,0,0,0.6);
+  --glow: rgba(255,255,255,0.05);
+}
+
+body.light-mode {
+  --night: #F4F7F9;
+  --deep: #E8EEF2;
+  --card: #FFFFFF;
+  --card2: #F8FAFC;
+  --border: rgba(78,205,196,0.3);
+  --border2: rgba(0,0,0,0.08);
+  --moon: #1A202C;
+  --muted: rgba(74,85,104,0.75);
+  --text: #2D3748;
+  --overlay: rgba(255,255,255,0.7);
+  --shadow: rgba(0,0,0,0.06);
+  --glow: rgba(0,0,0,0.02);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -47,11 +65,44 @@ body {
   padding: 0 20px 100px;
 }
 
-/* ── HERO ── */
 .hero {
   text-align: center;
   padding: 64px 0 48px;
+  position: relative;
 }
+
+.theme-toggle {
+  position: absolute;
+  top: 24px;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--card2);
+  border: 1px solid var(--border2);
+  color: var(--moon);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.05);
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+.theme-toggle svg {
+  width: 18px;
+  height: 18px;
+}
+
+.theme-toggle .sun-icon { display: none; }
+body.light-mode .theme-toggle .sun-icon { display: block; }
+body.light-mode .theme-toggle .moon-icon { display: none; }
 
 .hero-eyebrow {
   font-size: 10px;
@@ -490,6 +541,201 @@ body {
 .tag-perf     { border-color: rgba(78,205,196,0.3); color: var(--teal); }
 .tag-pattern  { border-color: rgba(126,200,160,0.3); color: var(--sage); }
 
+/* ── INFO BUTTON ── */
+.t-info-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid var(--border2);
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  flex-shrink: 0;
+  margin-top: 1px;
+  transition: all 0.22s;
+  background: transparent;
+  cursor: pointer;
+  line-height: 1;
+  user-select: none;
+}
+.t-info-btn:hover {
+  color: var(--teal);
+  border-color: rgba(78,205,196,0.45);
+  background: var(--teal-dim);
+  transform: scale(1.15);
+}
+
+.tpop-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  background: var(--overlay);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.28s ease;
+}
+.tpop-overlay.tpop-open {
+  opacity: 1;
+  pointer-events: all;
+}
+.tpop-card {
+  background: var(--card2);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+  max-width: 580px;
+  width: 100%;
+  padding: 0;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 32px 80px var(--shadow), 0 0 0 1px var(--glow) inset;
+  transform: translateY(24px) scale(0.97);
+  transition: transform 0.32s cubic-bezier(0.34,1.56,0.64,1);
+}
+.tpop-overlay.tpop-open .tpop-card {
+  transform: translateY(0) scale(1);
+}
+.tpop-close {
+  position: absolute;
+  top: 16px; right: 16px;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  border: 1px solid var(--border2);
+  background: transparent;
+  color: var(--muted);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+  line-height: 1;
+}
+.tpop-close:hover { color: var(--moon); border-color: rgba(120,130,140,0.5); background: var(--border2); }
+.tpop-card-header {
+  padding: 28px 32px 0;
+  flex-shrink: 0;
+}
+.tpop-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 32px 28px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border2) transparent;
+}
+.tpop-body::-webkit-scrollbar { width: 4px; }
+.tpop-body::-webkit-scrollbar-track { background: transparent; }
+.tpop-body::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+.tpop-eyebrow {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.tpop-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(16px, 3vw, 20px);
+  font-weight: 700;
+  color: var(--moon);
+  line-height: 1.25;
+  margin-bottom: 16px;
+  padding-right: 20px;
+}
+.tpop-overview {
+  font-size: 13.5px;
+  color: var(--text);
+  line-height: 1.85;
+  margin-bottom: 22px;
+  padding: 16px 18px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  border-left-width: 3px;
+}
+.tpop-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 24px; }
+.tpop-section-head {
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.tpop-section-head::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border2);
+}
+.tpop-kp-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.tpop-kp-list li {
+  font-size: 12.5px;
+  color: var(--text);
+  padding: 8px 12px 8px 28px;
+  position: relative;
+  line-height: 1.55;
+  background: var(--card);
+  border-radius: 8px;
+  border: 1px solid var(--border2);
+}
+.tpop-kp-list li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--muted);
+}
+.tpop-accent-bar {
+  height: 3px;
+  border-radius: 2px;
+  margin-bottom: 18px;
+  opacity: 0.7;
+}
+.tpop-tip {
+  margin-top: 20px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.7;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.tpop-tip-label {
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.tpop-tip-label::before {
+  content: '💡';
+  font-size: 12px;
+}
+@media (max-width: 560px) {
+  .tpop-card { max-width: 100%; }
+  .tpop-card-header { padding: 24px 20px 0; }
+  .tpop-body { padding: 0 20px 24px; }
+}
+
 .s-actions {
   display: flex;
   gap: 8px;
@@ -585,8 +831,13 @@ body {
 
 .hidden-card { display: none; }
 </style>
-</head>
 <body>
+<script>
+  // Restore theme early to prevent flash
+  if (localStorage.getItem('mastery_theme') === 'light') {
+    document.body.classList.add('light-mode');
+  }
+</script>
 
 <canvas id="cosmos"></canvas>
 
@@ -594,6 +845,10 @@ body {
 
   <!-- HERO -->
   <header class="hero">
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle Light/Dark Mode">
+      <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+      <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </button>
     <p class="hero-eyebrow">System Architecture Mastery Series</p>
     <h1>The Three Pillars of<br><em>System Mastery</em></h1>
     <p>API · Database · Scaling — A Complete Learning Codex</p>
@@ -705,87 +960,87 @@ const PILLARS = {
         id: 'api-design', icon: '◎', label: 'API Design Principles',
         desc: 'The foundation of every great API is intentional design. These concepts ensure your API is intuitive, versionable, and contract-driven from day one.',
         topics: [
-          { name: 'RESTful Resource Modeling', desc: 'Nouns not verbs, hierarchical resources, proper HTTP semantics', tags: ['pattern'] },
-          { name: 'OpenAPI / Swagger Spec', desc: 'Contract-first design with machine-readable API documentation', tags: ['pattern'] },
-          { name: 'API Versioning Strategies', desc: 'URI versioning, header versioning, content negotiation tradeoffs', tags: ['pattern'] },
-          { name: 'HATEOAS', desc: 'Hypermedia as engine of application state — self-describing APIs', tags: ['pattern'] },
-          { name: 'Idempotency Design', desc: 'Idempotency keys, safe retry semantics, PUT vs POST vs PATCH', tags: ['critical'] },
-          { name: 'Pagination Patterns', desc: 'Cursor-based, offset, keyset pagination and their performance tradeoffs', tags: ['perf'] },
-          { name: 'Request / Response Schema Design', desc: 'Envelope patterns, error shapes, consistent field naming conventions', tags: ['pattern'] },
-          { name: 'GraphQL vs REST vs gRPC', desc: 'When to choose each: flexibility, performance, and contract tradeoffs', tags: ['pattern'] },
-          { name: 'Backward Compatibility', desc: 'Additive-only changes, deprecation policy, sunset headers', tags: ['critical'] },
+          { name: 'RESTful Resource Modeling', desc: 'Nouns not verbs, hierarchical resources, proper HTTP semantics', tags: ['pattern'], link: 'https://restfulapi.net/resource-naming/' },
+          { name: 'OpenAPI / Swagger Spec', desc: 'Contract-first design with machine-readable API documentation', tags: ['pattern'], link: 'https://swagger.io/specification/' },
+          { name: 'API Versioning Strategies', desc: 'URI versioning, header versioning, content negotiation tradeoffs', tags: ['pattern'], link: 'https://www.postman.com/api-platform/api-versioning/' },
+          { name: 'HATEOAS', desc: 'Hypermedia as engine of application state — self-describing APIs', tags: ['pattern'], link: 'https://restfulapi.net/hateoas/' },
+          { name: 'Idempotency Design', desc: 'Idempotency keys, safe retry semantics, PUT vs POST vs PATCH', tags: ['critical'], link: 'https://stripe.com/docs/idempotency' },
+          { name: 'Pagination Patterns', desc: 'Cursor-based, offset, keyset pagination and their performance tradeoffs', tags: ['perf'], link: 'https://www.moesif.com/blog/technical/api-design/REST-API-Design-Filtering-Sorting-and-Pagination/' },
+          { name: 'Request / Response Schema Design', desc: 'Envelope patterns, error shapes, consistent field naming conventions', tags: ['pattern'], link: 'https://jsonapi.org/' },
+          { name: 'GraphQL vs REST vs gRPC', desc: 'When to choose each: flexibility, performance, and contract tradeoffs', tags: ['pattern'], link: 'https://graphql.org/learn/' },
+          { name: 'Backward Compatibility', desc: 'Additive-only changes, deprecation policy, sunset headers', tags: ['critical'], link: 'https://cloud.google.com/blog/products/gcp/api-design-guide' },
         ]
       },
       {
         id: 'api-auth', icon: '⬔', label: 'Authentication & Authorization',
         desc: 'Identity is the first gate. These protocols determine who can call your API and what they are allowed to do — implemented correctly, they are invisible; incorrectly, they are catastrophic.',
         topics: [
-          { name: 'OAuth 2.0 Flows', desc: 'Authorization code, client credentials, device, implicit — when each applies', tags: ['security', 'critical'] },
-          { name: 'OpenID Connect (OIDC)', desc: 'Identity layer on OAuth 2.0, ID tokens, UserInfo endpoint', tags: ['security'] },
-          { name: 'JWT — Structure & Validation', desc: 'Header/payload/signature, claim validation, algorithm confusion attacks', tags: ['security', 'critical'] },
-          { name: 'JWT — Refresh Token Strategy', desc: 'Token rotation, silent refresh, revocation via denylist', tags: ['security'] },
-          { name: 'API Keys & HMAC Signing', desc: 'Key management, request signing, replay attack prevention', tags: ['security'] },
-          { name: 'mTLS (Mutual TLS)', desc: 'Certificate-based service-to-service auth, when to use over JWT', tags: ['security'] },
-          { name: 'RBAC vs ABAC', desc: 'Role-based vs attribute-based access control — granularity tradeoffs', tags: ['security', 'pattern'] },
-          { name: 'Scopes & Claims Design', desc: 'Principle of least privilege, audience restriction, claim enrichment', tags: ['security'] },
-          { name: 'Session vs Token Auth', desc: 'Stateful sessions vs stateless JWTs — scaling and revocation implications', tags: ['security'] },
+          { name: 'OAuth 2.0 Flows', desc: 'Authorization code, client credentials, device, implicit — when each applies', tags: ['security', 'critical'], link: 'https://oauth.net/2/' },
+          { name: 'OpenID Connect (OIDC)', desc: 'Identity layer on OAuth 2.0, ID tokens, UserInfo endpoint', tags: ['security'], link: 'https://openid.net/connect/' },
+          { name: 'JWT — Structure & Validation', desc: 'Header/payload/signature, claim validation, algorithm confusion attacks', tags: ['security', 'critical'], link: 'https://jwt.io/introduction' },
+          { name: 'JWT — Refresh Token Strategy', desc: 'Token rotation, silent refresh, revocation via denylist', tags: ['security'], link: 'https://auth0.com/blog/refresh-tokens-what-are-they-and-when-to-use-them/' },
+          { name: 'API Keys & HMAC Signing', desc: 'Key management, request signing, replay attack prevention', tags: ['security'], link: 'https://aws.amazon.com/blogs/security/how-to-use-api-gateway-as-a-hmac-authenticated-endpoint/' },
+          { name: 'mTLS (Mutual TLS)', desc: 'Certificate-based service-to-service auth, when to use over JWT', tags: ['security'], link: 'https://www.cloudflare.com/learning/access-management/what-is-mutual-tls/' },
+          { name: 'RBAC vs ABAC', desc: 'Role-based vs attribute-based access control — granularity tradeoffs', tags: ['security', 'pattern'], link: 'https://www.okta.com/identity-101/role-based-access-control-vs-attribute-based-access-control/' },
+          { name: 'Scopes & Claims Design', desc: 'Principle of least privilege, audience restriction, claim enrichment', tags: ['security'], link: 'https://auth0.com/docs/get-started/apis/scopes' },
+          { name: 'Session vs Token Auth', desc: 'Stateful sessions vs stateless JWTs — scaling and revocation implications', tags: ['security'], link: 'https://sherryhli.medium.com/session-vs-token-based-authentication-24a8efed55e6' },
         ]
       },
       {
         id: 'api-security', icon: '⬡', label: 'API Security Hardening',
         desc: 'Defense in depth for your API surface. Every exposed endpoint is an attack vector — these practices reduce the blast radius of any breach.',
         topics: [
-          { name: 'OWASP API Security Top 10', desc: 'Broken object/function auth, excessive data exposure, mass assignment', tags: ['security', 'critical'] },
-          { name: 'Input Validation & Sanitization', desc: 'Schema validation, injection prevention, safe deserialization', tags: ['security', 'critical'] },
-          { name: 'SQL Injection Prevention', desc: 'Parameterized queries, ORM safety, stored procedure risks', tags: ['security', 'critical'] },
-          { name: 'XSS & CSRF Protection', desc: 'Content-Security-Policy, SameSite cookies, CSRF tokens', tags: ['security'] },
-          { name: 'TLS/HTTPS Everywhere', desc: 'Certificate pinning, HSTS, cipher suite selection, TLS 1.3', tags: ['security'] },
-          { name: 'Secrets Management', desc: 'Vault, AWS Secrets Manager, environment variable risks, rotation', tags: ['security', 'critical'] },
-          { name: 'Security Headers', desc: 'CORS policy, X-Frame-Options, Content-Type-Options, Referrer-Policy', tags: ['security'] },
-          { name: 'Audit Logging', desc: 'Who did what when — structured auth logs, tamper-evident storage', tags: ['security'] },
-          { name: 'Zero Trust Architecture', desc: 'Never trust, always verify — microsegmentation, identity-aware proxy', tags: ['security', 'pattern'] },
+          { name: 'OWASP API Security Top 10', desc: 'Broken object/function auth, excessive data exposure, mass assignment', tags: ['security', 'critical'], link: 'https://owasp.org/API-Security/editions/2023/en/0x11-t10/' },
+          { name: 'Input Validation & Sanitization', desc: 'Schema validation, injection prevention, safe deserialization', tags: ['security', 'critical'], link: 'https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html' },
+          { name: 'SQL Injection Prevention', desc: 'Parameterized queries, ORM safety, stored procedure risks', tags: ['security', 'critical'], link: 'https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html' },
+          { name: 'XSS & CSRF Protection', desc: 'Content-Security-Policy, SameSite cookies, CSRF tokens', tags: ['security'], link: 'https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html' },
+          { name: 'TLS/HTTPS Everywhere', desc: 'Certificate pinning, HSTS, cipher suite selection, TLS 1.3', tags: ['security'], link: 'https://www.cloudflare.com/learning/ssl/what-is-https/' },
+          { name: 'Secrets Management', desc: 'Vault, AWS Secrets Manager, environment variable risks, rotation', tags: ['security', 'critical'], link: 'https://developer.hashicorp.com/vault/docs/what-is-vault' },
+          { name: 'Security Headers', desc: 'CORS policy, X-Frame-Options, Content-Type-Options, Referrer-Policy', tags: ['security'], link: 'https://securityheaders.com/' },
+          { name: 'Audit Logging', desc: 'Who did what when — structured auth logs, tamper-evident storage', tags: ['security'], link: 'https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html' },
+          { name: 'Zero Trust Architecture', desc: 'Never trust, always verify — microsegmentation, identity-aware proxy', tags: ['security', 'pattern'], link: 'https://www.cloudflare.com/learning/security/glossary/what-is-zero-trust/' },
         ]
       },
       {
         id: 'api-ratelimit', icon: '◈', label: 'Rate Limiting & Throttling',
         desc: 'Traffic control is both a security and availability concern. These techniques protect your system from abuse while ensuring fair access for legitimate clients.',
         topics: [
-          { name: 'Fixed Window Rate Limiting', desc: 'Simple counters per time window — burst vulnerability at window edge', tags: ['pattern'] },
-          { name: 'Sliding Window Algorithm', desc: 'Smoother rate limiting using rolling time windows', tags: ['pattern', 'perf'] },
-          { name: 'Token Bucket Algorithm', desc: 'Allows controlled bursting — the most production-common approach', tags: ['pattern', 'critical'] },
-          { name: 'Leaky Bucket Algorithm', desc: 'Smooths out traffic spikes into constant output rate', tags: ['pattern'] },
-          { name: 'Distributed Rate Limiting', desc: 'Redis-backed limits across multiple API nodes — Lua scripts, INCR', tags: ['perf', 'critical'] },
-          { name: 'Per-Client vs Global Limits', desc: 'IP-based, user-based, API-key-based limit strategies', tags: ['pattern'] },
-          { name: 'Throttling vs Rate Limiting', desc: 'Soft throttling with degraded responses vs hard rejection', tags: ['pattern'] },
-          { name: 'Backpressure Signaling', desc: 'Retry-After headers, 429 responses, Exponential backoff on clients', tags: ['pattern'] },
+          { name: 'Fixed Window Rate Limiting', desc: 'Simple counters per time window — burst vulnerability at window edge', tags: ['pattern'], link: 'https://www.figma.com/blog/an-alternative-approach-to-rate-limiting/' },
+          { name: 'Sliding Window Algorithm', desc: 'Smoother rate limiting using rolling time windows', tags: ['pattern', 'perf'], link: 'https://redis.io/glossary/rate-limiting/' },
+          { name: 'Token Bucket Algorithm', desc: 'Allows controlled bursting — the most production-common approach', tags: ['pattern', 'critical'], link: 'https://www.cloudflare.com/learning/bots/what-is-rate-limiting/' },
+          { name: 'Leaky Bucket Algorithm', desc: 'Smooths out traffic spikes into constant output rate', tags: ['pattern'], link: 'https://en.wikipedia.org/wiki/Leaky_bucket' },
+          { name: 'Distributed Rate Limiting', desc: 'Redis-backed limits across multiple API nodes — Lua scripts, INCR', tags: ['perf', 'critical'], link: 'https://redis.io/docs/manual/patterns/distributed-locks/' },
+          { name: 'Per-Client vs Global Limits', desc: 'IP-based, user-based, API-key-based limit strategies', tags: ['pattern'], link: 'https://stripe.com/docs/rate-limits' },
+          { name: 'Throttling vs Rate Limiting', desc: 'Soft throttling with degraded responses vs hard rejection', tags: ['pattern'], link: 'https://aws.amazon.com/builders-library/using-load-shedding-to-avoid-overload/' },
+          { name: 'Backpressure Signaling', desc: 'Retry-After headers, 429 responses, Exponential backoff on clients', tags: ['pattern'], link: 'https://www.rfc-editor.org/rfc/rfc6585#section-4' },
         ]
       },
       {
         id: 'api-perf', icon: '✦', label: 'API Performance Optimization',
         desc: 'Speed is a feature. These techniques reduce latency, minimize payload size, and make your APIs resilient under load.',
         topics: [
-          { name: 'Response Compression', desc: 'Gzip / Brotli compression, Content-Encoding, size vs CPU tradeoff', tags: ['perf'] },
-          { name: 'HTTP Caching Headers', desc: 'Cache-Control, ETag, Last-Modified, conditional requests', tags: ['perf', 'critical'] },
-          { name: 'Connection Pooling', desc: 'Keep-Alive, HTTP/2 multiplexing, connection limits per upstream', tags: ['perf'] },
-          { name: 'HTTP/2 and HTTP/3', desc: 'Multiplexing, header compression, QUIC protocol for low latency', tags: ['perf'] },
-          { name: 'Payload Optimization', desc: 'Field filtering, sparse fieldsets, projection queries', tags: ['perf'] },
-          { name: 'Async APIs & Webhooks', desc: 'Long-polling, WebSockets, SSE, webhook delivery guarantees', tags: ['pattern', 'perf'] },
-          { name: 'CDN for APIs', desc: 'Edge caching, geo-routing, cache invalidation strategies at CDN', tags: ['perf'] },
-          { name: 'Bulk & Batch Endpoints', desc: 'Reducing round trips with batch operations, compound documents', tags: ['perf', 'pattern'] },
-          { name: 'N+1 Query Detection', desc: 'DataLoader pattern, eager loading, query analysis in ORMs', tags: ['perf', 'critical'] },
+          { name: 'Response Compression', desc: 'Gzip / Brotli compression, Content-Encoding, size vs CPU tradeoff', tags: ['perf'], link: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Compression' },
+          { name: 'HTTP Caching Headers', desc: 'Cache-Control, ETag, Last-Modified, conditional requests', tags: ['perf', 'critical'], link: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching' },
+          { name: 'Connection Pooling', desc: 'Keep-Alive, HTTP/2 multiplexing, connection limits per upstream', tags: ['perf'], link: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Connection_management_in_HTTP_1.x' },
+          { name: 'HTTP/2 and HTTP/3', desc: 'Multiplexing, header compression, QUIC protocol for low latency', tags: ['perf'], link: 'https://developer.mozilla.org/en-US/docs/Glossary/HTTP_2' },
+          { name: 'Payload Optimization', desc: 'Field filtering, sparse fieldsets, projection queries', tags: ['perf'], link: 'https://cloud.google.com/apis/design/design_patterns#resource_views' },
+          { name: 'Async APIs & Webhooks', desc: 'Long-polling, WebSockets, SSE, webhook delivery guarantees', tags: ['pattern', 'perf'], link: 'https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events' },
+          { name: 'CDN for APIs', desc: 'Edge caching, geo-routing, cache invalidation strategies at CDN', tags: ['perf'], link: 'https://www.cloudflare.com/learning/cdn/what-is-a-cdn/' },
+          { name: 'Bulk & Batch Endpoints', desc: 'Reducing round trips with batch operations, compound documents', tags: ['perf', 'pattern'], link: 'https://cloud.google.com/apis/design/design_patterns#list_pagination' },
+          { name: 'N+1 Query Detection', desc: 'DataLoader pattern, eager loading, query analysis in ORMs', tags: ['perf', 'critical'], link: 'https://www.sitepoint.com/solve-n-plus-1-query-problem-with-eager-loading/' },
         ]
       },
       {
         id: 'api-gateway', icon: '⬡', label: 'API Gateway Patterns',
         desc: 'The gateway is the front door to your entire backend. Getting this layer right means consistent security, routing, and observability across all services.',
         topics: [
-          { name: 'API Gateway Responsibilities', desc: 'Auth, routing, rate limiting, SSL termination, request transformation', tags: ['pattern'] },
-          { name: 'Backend for Frontend (BFF)', desc: 'Purpose-built gateways per client type — mobile vs web vs partner', tags: ['pattern'] },
-          { name: 'Request Aggregation', desc: 'Composing multiple downstream calls into one client response', tags: ['pattern'] },
-          { name: 'Circuit Breaker at Gateway', desc: 'Preventing cascade failures — Hystrix, Resilience4j, gateway-level', tags: ['critical', 'pattern'] },
-          { name: 'Kong / AWS API Gateway / Envoy', desc: 'Tool comparison — plugin ecosystems, performance, config models', tags: ['pattern'] },
-          { name: 'Service Mesh vs API Gateway', desc: 'East-west vs north-south traffic — where each belongs', tags: ['pattern'] },
-          { name: 'Observability at the Gateway', desc: 'Access logs, request tracing, error rate dashboards per route', tags: ['perf'] },
+          { name: 'API Gateway Responsibilities', desc: 'Auth, routing, rate limiting, SSL termination, request transformation', tags: ['pattern'], link: 'https://microservices.io/patterns/apigateway.html' },
+          { name: 'Backend for Frontend (BFF)', desc: 'Purpose-built gateways per client type — mobile vs web vs partner', tags: ['pattern'], link: 'https://samnewman.io/patterns/architectural/bff/' },
+          { name: 'Request Aggregation', desc: 'Composing multiple downstream calls into one client response', tags: ['pattern'], link: 'https://microservices.io/patterns/data/api-composition.html' },
+          { name: 'Circuit Breaker at Gateway', desc: 'Preventing cascade failures — Hystrix, Resilience4j, gateway-level', tags: ['critical', 'pattern'], link: 'https://resilience4j.readme.io/docs/circuitbreaker' },
+          { name: 'Kong / AWS API Gateway / Envoy', desc: 'Tool comparison — plugin ecosystems, performance, config models', tags: ['pattern'], link: 'https://konghq.com/blog/learning-center/what-is-an-api-gateway' },
+          { name: 'Service Mesh vs API Gateway', desc: 'East-west vs north-south traffic — where each belongs', tags: ['pattern'], link: 'https://www.nginx.com/blog/what-is-a-service-mesh/' },
+          { name: 'Observability at the Gateway', desc: 'Access logs, request tracing, error rate dashboards per route', tags: ['perf'], link: 'https://opentelemetry.io/docs/concepts/observability-primer/' },
         ]
       },
     ]
@@ -805,100 +1060,100 @@ const PILLARS = {
         id: 'db-indexing', icon: '◎', label: 'Indexing & Query Optimization',
         desc: 'Indexes are the single highest-leverage tool in database performance. Understanding their internals reveals why queries are fast or slow — and how to fix them.',
         topics: [
-          { name: 'B-Tree Index Internals', desc: 'How B-trees store keys, page splits, index height vs scan cost', tags: ['perf', 'critical'] },
-          { name: 'Composite Index Design', desc: 'Column order matters — leading column rule, covering indexes', tags: ['perf', 'critical'] },
-          { name: 'Index Selectivity', desc: 'High vs low cardinality, when indexes hurt more than help', tags: ['perf'] },
-          { name: 'EXPLAIN / EXPLAIN ANALYZE', desc: 'Reading query plans — seq scan vs index scan vs bitmap scan', tags: ['perf', 'critical'] },
-          { name: 'Partial & Filtered Indexes', desc: 'Index a subset of rows — smaller, faster, more selective', tags: ['perf'] },
-          { name: 'Covering Indexes', desc: 'Index-only scans — avoid heap fetches entirely', tags: ['perf'] },
-          { name: 'Hash Indexes', desc: 'O(1) equality lookups — when to use over B-tree', tags: ['perf'] },
-          { name: 'GIN / GiST Indexes', desc: 'Full-text search, JSONB queries, geometric data in PostgreSQL', tags: ['perf'] },
-          { name: 'Index Bloat & Maintenance', desc: 'Dead tuples, VACUUM, REINDEX, pg_stat_user_indexes', tags: ['perf'] },
-          { name: 'Slow Query Log Analysis', desc: 'Identifying regressions, pg_stat_statements, MySQL slow log', tags: ['perf', 'critical'] },
+          { name: 'B-Tree Index Internals', desc: 'How B-trees store keys, page splits, index height vs scan cost', tags: ['perf', 'critical'], link: 'https://use-the-index-luke.com/sql/anatomy' },
+          { name: 'Composite Index Design', desc: 'Column order matters — leading column rule, covering indexes', tags: ['perf', 'critical'], link: 'https://use-the-index-luke.com/sql/where-clause/the-equals-operator/concatenated-keys' },
+          { name: 'Index Selectivity', desc: 'High vs low cardinality, when indexes hurt more than help', tags: ['perf'], link: 'https://use-the-index-luke.com/sql/where-clause/searching-for-ranges/index-scan-parameters' },
+          { name: 'EXPLAIN / EXPLAIN ANALYZE', desc: 'Reading query plans — seq scan vs index scan vs bitmap scan', tags: ['perf', 'critical'], link: 'https://www.postgresql.org/docs/current/sql-explain.html' },
+          { name: 'Partial & Filtered Indexes', desc: 'Index a subset of rows — smaller, faster, more selective', tags: ['perf'], link: 'https://www.postgresql.org/docs/current/indexes-partial.html' },
+          { name: 'Covering Indexes', desc: 'Index-only scans — avoid heap fetches entirely', tags: ['perf'], link: 'https://use-the-index-luke.com/sql/clustering/index-only-scan-covering-index' },
+          { name: 'Hash Indexes', desc: 'O(1) equality lookups — when to use over B-tree', tags: ['perf'], link: 'https://www.postgresql.org/docs/current/indexes-types.html' },
+          { name: 'GIN / GiST Indexes', desc: 'Full-text search, JSONB queries, geometric data in PostgreSQL', tags: ['perf'], link: 'https://www.postgresql.org/docs/current/textsearch-indexes.html' },
+          { name: 'Index Bloat & Maintenance', desc: 'Dead tuples, VACUUM, REINDEX, pg_stat_user_indexes', tags: ['perf'], link: 'https://www.postgresql.org/docs/current/routine-vacuuming.html' },
+          { name: 'Slow Query Log Analysis', desc: 'Identifying regressions, pg_stat_statements, MySQL slow log', tags: ['perf', 'critical'], link: 'https://www.postgresql.org/docs/current/pgstatstatements.html' },
         ]
       },
       {
         id: 'db-schema', icon: '⬡', label: 'Schema Design & Normalization',
         desc: 'The schema is a commitment — changing it later is expensive. These principles guide you toward designs that survive growth without becoming unmaintainable.',
         topics: [
-          { name: '1NF / 2NF / 3NF / BCNF', desc: 'Normal forms demystified — eliminating redundancy and anomalies', tags: ['pattern'] },
-          { name: 'Denormalization Patterns', desc: 'Intentional redundancy for read performance — when it pays off', tags: ['perf', 'pattern'] },
-          { name: 'JSONB vs Relational Columns', desc: 'Flexible schema in PostgreSQL — indexing JSONB, performance costs', tags: ['pattern'] },
-          { name: 'Surrogate vs Natural Keys', desc: 'UUID vs sequential ID vs composite keys — implications for indexing', tags: ['pattern'] },
-          { name: 'Soft Delete Patterns', desc: 'deleted_at column, filtered indexes, impact on query complexity', tags: ['pattern'] },
-          { name: 'Temporal Tables', desc: 'Bitemporal data, system-time versioning, audit history schemas', tags: ['pattern'] },
-          { name: 'Polymorphic Associations', desc: 'STI vs CTI vs JSON — modeling inheritance in relational DBs', tags: ['pattern'] },
-          { name: 'Schema Migrations Strategy', desc: 'Backward-compatible migrations, expand-contract pattern, zero downtime', tags: ['critical', 'pattern'] },
+          { name: '1NF / 2NF / 3NF / BCNF', desc: 'Normal forms demystified — eliminating redundancy and anomalies', tags: ['pattern'], link: 'https://www.geeksforgeeks.org/normal-forms-in-dbms/' },
+          { name: 'Denormalization Patterns', desc: 'Intentional redundancy for read performance — when it pays off', tags: ['perf', 'pattern'], link: 'https://www.postgresql.org/docs/current/ddl.html' },
+          { name: 'JSONB vs Relational Columns', desc: 'Flexible schema in PostgreSQL — indexing JSONB, performance costs', tags: ['pattern'], link: 'https://www.postgresql.org/docs/current/datatype-json.html' },
+          { name: 'Surrogate vs Natural Keys', desc: 'UUID vs sequential ID vs composite keys — implications for indexing', tags: ['pattern'], link: 'https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS' },
+          { name: 'Soft Delete Patterns', desc: 'deleted_at column, filtered indexes, impact on query complexity', tags: ['pattern'], link: 'https://www.oreilly.com/library/view/sql-antipatterns/9781680500073/' },
+          { name: 'Temporal Tables', desc: 'Bitemporal data, system-time versioning, audit history schemas', tags: ['pattern'], link: 'https://www.postgresql.org/docs/current/sql-createtable.html' },
+          { name: 'Polymorphic Associations', desc: 'STI vs CTI vs JSON — modeling inheritance in relational DBs', tags: ['pattern'], link: 'https://www.martinfowler.com/eaaCatalog/singleTableInheritance.html' },
+          { name: 'Schema Migrations Strategy', desc: 'Backward-compatible migrations, expand-contract pattern, zero downtime', tags: ['critical', 'pattern'], link: 'https://www.prisma.io/dataguide/types/relational/what-are-database-migrations' },
         ]
       },
       {
         id: 'db-transactions', icon: '⬔', label: 'Transactions & Concurrency',
         desc: 'Concurrency bugs are subtle and catastrophic. Mastering isolation levels and locking mechanisms is essential for building correct, high-throughput systems.',
         topics: [
-          { name: 'ACID Properties Deep Dive', desc: 'Atomicity, consistency, isolation, durability — what each actually guarantees', tags: ['critical'] },
-          { name: 'Isolation Levels', desc: 'Read uncommitted → serializable — anomalies each level prevents', tags: ['critical'] },
-          { name: 'Dirty Reads, Phantom Reads, Lost Updates', desc: 'Concrete examples of concurrency anomalies and their fixes', tags: ['critical'] },
-          { name: 'MVCC (Multi-Version Concurrency)', desc: 'How PostgreSQL/MySQL avoid read locks — snapshot isolation internals', tags: ['perf', 'critical'] },
-          { name: 'Optimistic vs Pessimistic Locking', desc: 'Version columns vs SELECT FOR UPDATE — throughput vs contention', tags: ['pattern', 'critical'] },
-          { name: 'Deadlock Detection & Prevention', desc: 'Lock ordering, deadlock graphs, retry logic, lock timeouts', tags: ['critical'] },
-          { name: 'Long-Running Transactions', desc: 'Table bloat, lock escalation, vacuum starvation in PostgreSQL', tags: ['perf'] },
-          { name: 'Savepoints & Nested Transactions', desc: 'Partial rollback within a transaction — use cases and caveats', tags: ['pattern'] },
-          { name: 'Two-Phase Commit (2PC)', desc: 'Distributed transaction coordination — performance cost, failure modes', tags: ['critical'] },
+          { name: 'ACID Properties Deep Dive', desc: 'Atomicity, consistency, isolation, durability — what each actually guarantees', tags: ['critical'], link: 'https://www.postgresql.org/docs/current/mvcc-intro.html' },
+          { name: 'Isolation Levels', desc: 'Read uncommitted → serializable — anomalies each level prevents', tags: ['critical'], link: 'https://www.postgresql.org/docs/current/transaction-iso.html' },
+          { name: 'Dirty Reads, Phantom Reads, Lost Updates', desc: 'Concrete examples of concurrency anomalies and their fixes', tags: ['critical'], link: 'https://www.postgresql.org/docs/current/transaction-iso.html#XACT-READ-COMMITTED' },
+          { name: 'MVCC (Multi-Version Concurrency)', desc: 'How PostgreSQL/MySQL avoid read locks — snapshot isolation internals', tags: ['perf', 'critical'], link: 'https://www.postgresql.org/docs/current/mvcc-intro.html' },
+          { name: 'Optimistic vs Pessimistic Locking', desc: 'Version columns vs SELECT FOR UPDATE — throughput vs contention', tags: ['pattern', 'critical'], link: 'https://www.postgresql.org/docs/current/explicit-locking.html' },
+          { name: 'Deadlock Detection & Prevention', desc: 'Lock ordering, deadlock graphs, retry logic, lock timeouts', tags: ['critical'], link: 'https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-DEADLOCKS' },
+          { name: 'Long-Running Transactions', desc: 'Table bloat, lock escalation, vacuum starvation in PostgreSQL', tags: ['perf'], link: 'https://www.postgresql.org/docs/current/routine-vacuuming.html' },
+          { name: 'Savepoints & Nested Transactions', desc: 'Partial rollback within a transaction — use cases and caveats', tags: ['pattern'], link: 'https://www.postgresql.org/docs/current/sql-savepoint.html' },
+          { name: 'Two-Phase Commit (2PC)', desc: 'Distributed transaction coordination — performance cost, failure modes', tags: ['critical'], link: 'https://www.postgresql.org/docs/current/two-phase.html' },
         ]
       },
       {
         id: 'db-replication', icon: '◈', label: 'Replication & High Availability',
         desc: 'A single database is a single point of failure. Replication strategies determine how data flows across nodes and what guarantees you can make about durability.',
         topics: [
-          { name: 'Synchronous vs Async Replication', desc: 'Durability guarantee vs latency tradeoff — RPO / RTO implications', tags: ['critical'] },
-          { name: 'Primary / Replica (Read Replicas)', desc: 'Replica lag, read-your-writes consistency, routing strategies', tags: ['perf', 'critical'] },
-          { name: 'Streaming Replication (PostgreSQL)', desc: 'WAL shipping, pg_basebackup, replication slots, lag monitoring', tags: ['perf'] },
-          { name: 'Logical Replication', desc: 'Table-level replication, publication/subscription, CDC use cases', tags: ['pattern'] },
-          { name: 'Multi-Primary Replication', desc: 'Write conflict resolution, Galera Cluster, Aurora Multi-Master', tags: ['pattern'] },
-          { name: 'Failover Automation', desc: 'Patroni, Pacemaker, AWS RDS failover — detection and promotion', tags: ['critical'] },
-          { name: 'Connection Pooling (PgBouncer / ProxySQL)', desc: 'Transaction vs session mode, pool sizing, prepared statement caveats', tags: ['perf', 'critical'] },
-          { name: 'Backup Strategies', desc: 'pg_dump vs WAL-G vs snapshot — RTO, RPO, and restore testing', tags: ['critical'] },
+          { name: 'Synchronous vs Async Replication', desc: 'Durability guarantee vs latency tradeoff — RPO / RTO implications', tags: ['critical'], link: 'https://www.postgresql.org/docs/current/warm-standby.html' },
+          { name: 'Primary / Replica (Read Replicas)', desc: 'Replica lag, read-your-writes consistency, routing strategies', tags: ['perf', 'critical'], link: 'https://www.postgresql.org/docs/current/high-availability.html' },
+          { name: 'Streaming Replication (PostgreSQL)', desc: 'WAL shipping, pg_basebackup, replication slots, lag monitoring', tags: ['perf'], link: 'https://www.postgresql.org/docs/current/streaming-replication.html' },
+          { name: 'Logical Replication', desc: 'Table-level replication, publication/subscription, CDC use cases', tags: ['pattern'], link: 'https://www.postgresql.org/docs/current/logical-replication.html' },
+          { name: 'Multi-Primary Replication', desc: 'Write conflict resolution, Galera Cluster, Aurora Multi-Master', tags: ['pattern'], link: 'https://galeracluster.com/library/documentation/tech-desc-introduction.html' },
+          { name: 'Failover Automation', desc: 'Patroni, Pacemaker, AWS RDS failover — detection and promotion', tags: ['critical'], link: 'https://patroni.readthedocs.io/en/latest/' },
+          { name: 'Connection Pooling (PgBouncer / ProxySQL)', desc: 'Transaction vs session mode, pool sizing, prepared statement caveats', tags: ['perf', 'critical'], link: 'https://www.pgbouncer.org/usage.html' },
+          { name: 'Backup Strategies', desc: 'pg_dump vs WAL-G vs snapshot — RTO, RPO, and restore testing', tags: ['critical'], link: 'https://www.postgresql.org/docs/current/backup.html' },
         ]
       },
       {
         id: 'db-sharding', icon: '✦', label: 'Sharding & Partitioning',
         desc: 'When a single node reaches its limits, you partition — dividing data across many nodes. These techniques decide where each row lives and how you find it again.',
         topics: [
-          { name: 'Horizontal Partitioning (Sharding)', desc: 'Distributing rows across nodes — shard key choice is everything', tags: ['critical', 'pattern'] },
-          { name: 'Shard Key Selection', desc: 'Cardinality, write distribution, hotspot avoidance, future-proofing', tags: ['critical'] },
-          { name: 'Consistent Hashing for Shards', desc: 'Virtual nodes, rebalancing without full resharding', tags: ['pattern'] },
-          { name: 'Range vs Hash Sharding', desc: 'Sequential access vs uniform distribution — workload-dependent choice', tags: ['pattern'] },
-          { name: 'PostgreSQL Table Partitioning', desc: 'Declarative partitioning — range, list, hash — partition pruning', tags: ['perf'] },
-          { name: 'Cross-Shard Queries', desc: 'Scatter-gather queries, distributed joins, the cost of global operations', tags: ['perf', 'critical'] },
-          { name: 'Resharding Strategies', desc: 'Double-write, backfill, dual-read migration — live resharding without downtime', tags: ['critical'] },
-          { name: 'Vitess / Citus', desc: 'Sharding middleware for MySQL and PostgreSQL at scale', tags: ['pattern'] },
+          { name: 'Horizontal Partitioning (Sharding)', desc: 'Distributing rows across nodes — shard key choice is everything', tags: ['critical', 'pattern'], link: 'https://www.citusdata.com/blog/2017/08/28/sharding-postgres-large-tables/' },
+          { name: 'Shard Key Selection', desc: 'Cardinality, write distribution, hotspot avoidance, future-proofing', tags: ['critical'], link: 'https://www.mongodb.com/docs/manual/core/sharding-shard-key/' },
+          { name: 'Consistent Hashing for Shards', desc: 'Virtual nodes, rebalancing without full resharding', tags: ['pattern'], link: 'https://highscalability.com/consistent-hashing-algorithm/' },
+          { name: 'Range vs Hash Sharding', desc: 'Sequential access vs uniform distribution — workload-dependent choice', tags: ['pattern'], link: 'https://www.postgresql.org/docs/current/ddl-partitioning.html' },
+          { name: 'PostgreSQL Table Partitioning', desc: 'Declarative partitioning — range, list, hash — partition pruning', tags: ['perf'], link: 'https://www.postgresql.org/docs/current/ddl-partitioning.html' },
+          { name: 'Cross-Shard Queries', desc: 'Scatter-gather queries, distributed joins, the cost of global operations', tags: ['perf', 'critical'], link: 'https://www.citusdata.com/blog/2018/01/10/sharding-in-postgres-and-citus/' },
+          { name: 'Resharding Strategies', desc: 'Double-write, backfill, dual-read migration — live resharding without downtime', tags: ['critical'], link: 'https://planetscale.com/blog/how-does-online-schema-change-work' },
+          { name: 'Vitess / Citus', desc: 'Sharding middleware for MySQL and PostgreSQL at scale', tags: ['pattern'], link: 'https://vitess.io/docs/overview/' },
         ]
       },
       {
         id: 'db-caching', icon: '⬡', label: 'Database Caching Patterns',
         desc: 'The fastest query is the one you never make. These caching strategies intercept reads before they hit the database, dramatically reducing load and latency.',
         topics: [
-          { name: 'Cache-Aside (Lazy Loading)', desc: 'App reads cache first, falls back to DB, populates cache on miss', tags: ['pattern', 'critical'] },
-          { name: 'Write-Through Cache', desc: 'Every write goes to both cache and DB — strong consistency', tags: ['pattern'] },
-          { name: 'Write-Behind (Write-Back)', desc: 'Write to cache async, batch flush to DB — risk of data loss', tags: ['pattern'] },
-          { name: 'Read-Through Cache', desc: 'Cache sits in front of DB, transparently handles misses', tags: ['pattern'] },
-          { name: 'Cache Invalidation Strategies', desc: 'TTL, event-driven invalidation, cache versioning — the hard problem', tags: ['critical'] },
-          { name: 'Cache Stampede Prevention', desc: 'Probabilistic early expiry, distributed locks on miss, request coalescing', tags: ['perf', 'critical'] },
-          { name: 'Hot Key Problem', desc: 'Uneven cache load — local cache, key sharding, read replicas', tags: ['perf'] },
-          { name: 'Redis Data Structures for DB Caching', desc: 'Strings, Hashes, Sorted Sets, HyperLogLog — choosing the right type', tags: ['pattern'] },
+          { name: 'Cache-Aside (Lazy Loading)', desc: 'App reads cache first, falls back to DB, populates cache on miss', tags: ['pattern', 'critical'], link: 'https://docs.aws.amazon.com/whitepapers/latest/database-caching-strategies-using-redis/caching-patterns.html' },
+          { name: 'Write-Through Cache', desc: 'Every write goes to both cache and DB — strong consistency', tags: ['pattern'], link: 'https://docs.aws.amazon.com/whitepapers/latest/database-caching-strategies-using-redis/caching-patterns.html' },
+          { name: 'Write-Behind (Write-Back)', desc: 'Write to cache async, batch flush to DB — risk of data loss', tags: ['pattern'], link: 'https://docs.aws.amazon.com/whitepapers/latest/database-caching-strategies-using-redis/caching-patterns.html' },
+          { name: 'Read-Through Cache', desc: 'Cache sits in front of DB, transparently handles misses', tags: ['pattern'], link: 'https://docs.aws.amazon.com/whitepapers/latest/database-caching-strategies-using-redis/caching-patterns.html' },
+          { name: 'Cache Invalidation Strategies', desc: 'TTL, event-driven invalidation, cache versioning — the hard problem', tags: ['critical'], link: 'https://redis.io/glossary/cache-invalidation/' },
+          { name: 'Cache Stampede Prevention', desc: 'Probabilistic early expiry, distributed locks on miss, request coalescing', tags: ['perf', 'critical'], link: 'https://redis.io/docs/manual/patterns/' },
+          { name: 'Hot Key Problem', desc: 'Uneven cache load — local cache, key sharding, read replicas', tags: ['perf'], link: 'https://redis.io/docs/management/scaling/' },
+          { name: 'Redis Data Structures for DB Caching', desc: 'Strings, Hashes, Sorted Sets, HyperLogLog — choosing the right type', tags: ['pattern'], link: 'https://redis.io/docs/data-types/' },
         ]
       },
       {
         id: 'db-nosql', icon: '◎', label: 'NoSQL Optimization Patterns',
         desc: 'NoSQL databases trade the flexibility of SQL for specific performance characteristics. Understanding these models ensures you exploit them — rather than fight them.',
         topics: [
-          { name: 'DynamoDB Single-Table Design', desc: 'Access pattern-first modeling, partition keys, composite sort keys', tags: ['critical', 'pattern'] },
-          { name: 'Cassandra Data Modeling', desc: 'Query-driven design, partition size limits, wide rows, tombstones', tags: ['pattern', 'critical'] },
-          { name: 'MongoDB Index Optimization', desc: 'Compound indexes, covered queries, explain() output analysis', tags: ['perf'] },
-          { name: 'MongoDB Aggregation Pipeline', desc: '$match early, $project to reduce docs, index hints in pipeline', tags: ['perf'] },
-          { name: 'Redis Eviction Policies', desc: 'LRU, LFU, allkeys-lru, volatile-lru — choosing for your workload', tags: ['perf'] },
-          { name: 'Cassandra Anti-patterns', desc: 'ALLOW FILTERING, large partitions, secondary index pitfalls', tags: ['critical'] },
-          { name: 'Time-Series Optimization', desc: 'InfluxDB, TimescaleDB, downsampling, retention policies', tags: ['perf', 'pattern'] },
+          { name: 'DynamoDB Single-Table Design', desc: 'Access pattern-first modeling, partition keys, composite sort keys', tags: ['critical', 'pattern'], link: 'https://www.alexdebrie.com/posts/dynamodb-single-table/' },
+          { name: 'Cassandra Data Modeling', desc: 'Query-driven design, partition size limits, wide rows, tombstones', tags: ['pattern', 'critical'], link: 'https://cassandra.apache.org/doc/latest/cassandra/data_modeling/intro.html' },
+          { name: 'MongoDB Index Optimization', desc: 'Compound indexes, covered queries, explain() output analysis', tags: ['perf'], link: 'https://www.mongodb.com/docs/manual/indexes/' },
+          { name: 'MongoDB Aggregation Pipeline', desc: '$match early, $project to reduce docs, index hints in pipeline', tags: ['perf'], link: 'https://www.mongodb.com/docs/manual/core/aggregation-pipeline/' },
+          { name: 'Redis Eviction Policies', desc: 'LRU, LFU, allkeys-lru, volatile-lru — choosing for your workload', tags: ['perf'], link: 'https://redis.io/docs/reference/eviction/' },
+          { name: 'Cassandra Anti-patterns', desc: 'ALLOW FILTERING, large partitions, secondary index pitfalls', tags: ['critical'], link: 'https://cassandra.apache.org/doc/latest/cassandra/data_modeling/data_modeling_rdbms.html' },
+          { name: 'Time-Series Optimization', desc: 'InfluxDB, TimescaleDB, downsampling, retention policies', tags: ['perf', 'pattern'], link: 'https://docs.timescale.com/use-timescale/latest/time-series-data/' },
         ]
       },
     ]
@@ -918,112 +1173,112 @@ const PILLARS = {
         id: 'scale-fundamentals', icon: '◎', label: 'Scaling Fundamentals',
         desc: 'Before you can scale, you must measure. These fundamentals establish the vocabulary and mental models that underpin every scaling decision.',
         topics: [
-          { name: 'Vertical vs Horizontal Scaling', desc: 'Scale-up limits, scale-out coordination costs — knowing when to switch', tags: ['critical'] },
-          { name: 'Scalability vs Elasticity', desc: 'Design-time capacity vs runtime auto-scaling — different problems', tags: ['pattern'] },
-          { name: 'Latency vs Throughput', desc: 'P50/P95/P99 percentiles, Little\'s Law, queueing theory basics', tags: ['perf', 'critical'] },
-          { name: 'Bottleneck Identification', desc: 'USE method (Utilization, Saturation, Errors) for CPU, memory, I/O', tags: ['perf', 'critical'] },
-          { name: 'Amdahl\'s Law', desc: 'The fundamental limit of parallelization — why 100x scale is hard', tags: ['perf'] },
-          { name: 'Capacity Planning', desc: 'Load testing, traffic modeling, headroom strategy, cost per RPS', tags: ['critical'] },
-          { name: 'SLI / SLO / SLA', desc: 'Defining and measuring reliability — error budgets and burn rates', tags: ['critical', 'pattern'] },
-          { name: 'Thundering Herd Problem', desc: 'Cache expiry stampedes, connection storms — prevention techniques', tags: ['perf', 'critical'] },
+          { name: 'Vertical vs Horizontal Scaling', desc: 'Scale-up limits, scale-out coordination costs — knowing when to switch', tags: ['critical'], link: 'https://www.cloudzero.com/blog/horizontal-vs-vertical-scaling/' },
+          { name: 'Scalability vs Elasticity', desc: 'Design-time capacity vs runtime auto-scaling — different problems', tags: ['pattern'], link: 'https://aws.amazon.com/blogs/architecture/scale-and-resilience-best-practices/' },
+          { name: 'Latency vs Throughput', desc: 'P50/P95/P99 percentiles, Little\'s Law, queueing theory basics', tags: ['perf', 'critical'], link: 'https://www.brendangregg.com/blog/2018-12-02/total-time-in-percentages.html' },
+          { name: 'Bottleneck Identification', desc: 'USE method (Utilization, Saturation, Errors) for CPU, memory, I/O', tags: ['perf', 'critical'], link: 'https://www.brendangregg.com/usemethod.html' },
+          { name: 'Amdahl\'s Law', desc: 'The fundamental limit of parallelization — why 100x scale is hard', tags: ['perf'], link: 'https://en.wikipedia.org/wiki/Amdahl%27s_law' },
+          { name: 'Capacity Planning', desc: 'Load testing, traffic modeling, headroom strategy, cost per RPS', tags: ['critical'], link: 'https://sre.google/workbook/capacity-planning/' },
+          { name: 'SLI / SLO / SLA', desc: 'Defining and measuring reliability — error budgets and burn rates', tags: ['critical', 'pattern'], link: 'https://sre.google/sre-book/service-level-objectives/' },
+          { name: 'Thundering Herd Problem', desc: 'Cache expiry stampedes, connection storms — prevention techniques', tags: ['perf', 'critical'], link: 'https://en.wikipedia.org/wiki/Thundering_herd_problem' },
         ]
       },
       {
         id: 'scale-lb', icon: '⬡', label: 'Load Balancing',
         desc: 'Load balancers are the traffic directors of distributed systems. Choosing the right algorithm and placement determines how evenly — and how reliably — load is distributed.',
         topics: [
-          { name: 'L4 vs L7 Load Balancing', desc: 'TCP-level vs HTTP-level routing — tradeoffs in visibility and cost', tags: ['pattern', 'critical'] },
-          { name: 'Round Robin & Weighted RR', desc: 'Simple distribution, static weights for heterogeneous nodes', tags: ['pattern'] },
-          { name: 'Least Connections', desc: 'Route to the node with fewest active connections — better for variable work', tags: ['pattern', 'perf'] },
-          { name: 'Consistent Hashing for LB', desc: 'Session affinity without central state — minimal disruption on node change', tags: ['pattern', 'perf'] },
-          { name: 'Health Checks & Circuit Breaking', desc: 'Active vs passive health probes, unhealthy ejection, recovery', tags: ['critical'] },
-          { name: 'Global Load Balancing (GSLB)', desc: 'Geo-routing, latency-based routing, failover across regions', tags: ['pattern'] },
-          { name: 'Sticky Sessions', desc: 'Session affinity tradeoffs — server memory vs distributed session store', tags: ['pattern'] },
-          { name: 'HAProxy / NGINX / AWS ALB / Envoy', desc: 'Tool comparison — performance characteristics, config model, observability', tags: ['pattern'] },
+          { name: 'L4 vs L7 Load Balancing', desc: 'TCP-level vs HTTP-level routing — tradeoffs in visibility and cost', tags: ['pattern', 'critical'], link: 'https://www.nginx.com/resources/glossary/layer-4-load-balancing/' },
+          { name: 'Round Robin & Weighted RR', desc: 'Simple distribution, static weights for heterogeneous nodes', tags: ['pattern'], link: 'https://www.nginx.com/blog/choosing-nginx-plus-load-balancing-techniques/' },
+          { name: 'Least Connections', desc: 'Route to the node with fewest active connections — better for variable work', tags: ['pattern', 'perf'], link: 'https://www.nginx.com/blog/choosing-nginx-plus-load-balancing-techniques/' },
+          { name: 'Consistent Hashing for LB', desc: 'Session affinity without central state — minimal disruption on node change', tags: ['pattern', 'perf'], link: 'https://www.toptal.com/big-data/consistent-hashing' },
+          { name: 'Health Checks & Circuit Breaking', desc: 'Active vs passive health probes, unhealthy ejection, recovery', tags: ['critical'], link: 'https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/health_checking' },
+          { name: 'Global Load Balancing (GSLB)', desc: 'Geo-routing, latency-based routing, failover across regions', tags: ['pattern'], link: 'https://www.cloudflare.com/learning/performance/what-is-global-server-load-balancing/' },
+          { name: 'Sticky Sessions', desc: 'Session affinity tradeoffs — server memory vs distributed session store', tags: ['pattern'], link: 'https://www.nginx.com/blog/load-balancing-with-nginx-plus/' },
+          { name: 'HAProxy / NGINX / AWS ALB / Envoy', desc: 'Tool comparison — performance characteristics, config model, observability', tags: ['pattern'], link: 'https://www.haproxy.org/download/1.8/doc/intro.txt' },
         ]
       },
       {
         id: 'scale-caching', icon: '⬔', label: 'Distributed Caching at Scale',
         desc: 'Caching is one of the most effective scaling tools — but distributed caching introduces coordination challenges that can undermine the very gains you seek.',
         topics: [
-          { name: 'Redis Cluster Architecture', desc: 'Hash slots, node roles, resharding — how Redis distributes data', tags: ['critical', 'pattern'] },
-          { name: 'Memcached at Scale', desc: 'Simple, multi-threaded, no persistence — when it beats Redis', tags: ['perf', 'pattern'] },
-          { name: 'Cache Topology Patterns', desc: 'Local L1 + distributed L2, regional caches, write-through hierarchies', tags: ['pattern'] },
-          { name: 'Cache Warming Strategies', desc: 'Cold start problem, pre-warming, gradual traffic shift', tags: ['perf', 'critical'] },
-          { name: 'Consistent Hashing in Caches', desc: 'Minimizing key remapping when cache nodes join or leave', tags: ['pattern'] },
-          { name: 'Multi-Region Cache Coherence', desc: 'Cache invalidation across regions — eventual consistency tradeoffs', tags: ['critical'] },
-          { name: 'Local In-Process Caching', desc: 'Caffeine, Guava Cache — when network round-trips are too slow', tags: ['perf'] },
+          { name: 'Redis Cluster Architecture', desc: 'Hash slots, node roles, resharding — how Redis distributes data', tags: ['critical', 'pattern'], link: 'https://redis.io/docs/management/scaling/' },
+          { name: 'Memcached at Scale', desc: 'Simple, multi-threaded, no persistence — when it beats Redis', tags: ['perf', 'pattern'], link: 'https://www.memcached.org/about' },
+          { name: 'Cache Topology Patterns', desc: 'Local L1 + distributed L2, regional caches, write-through hierarchies', tags: ['pattern'], link: 'https://docs.aws.amazon.com/whitepapers/latest/database-caching-strategies-using-redis/caching-patterns.html' },
+          { name: 'Cache Warming Strategies', desc: 'Cold start problem, pre-warming, gradual traffic shift', tags: ['perf', 'critical'], link: 'https://redis.io/docs/manual/client-side-caching/' },
+          { name: 'Consistent Hashing in Caches', desc: 'Minimizing key remapping when cache nodes join or leave', tags: ['pattern'], link: 'https://www.toptal.com/big-data/consistent-hashing' },
+          { name: 'Multi-Region Cache Coherence', desc: 'Cache invalidation across regions — eventual consistency tradeoffs', tags: ['critical'], link: 'https://redis.io/docs/management/replication/' },
+          { name: 'Local In-Process Caching', desc: 'Caffeine, Guava Cache — when network round-trips are too slow', tags: ['perf'], link: 'https://github.com/ben-manes/caffeine/wiki' },
         ]
       },
       {
         id: 'scale-async', icon: '◈', label: 'Async Architecture & Message Queues',
         desc: 'Decoupling producers from consumers is the primary mechanism for absorbing load spikes. These patterns transform tight synchronous dependencies into resilient, independently scalable flows.',
         topics: [
-          { name: 'Message Queue vs Event Bus', desc: 'Point-to-point vs publish-subscribe — routing, retention, replay', tags: ['pattern', 'critical'] },
-          { name: 'Kafka Partitioning Strategy', desc: 'Partition count, key-based routing, consumer group parallelism', tags: ['critical', 'perf'] },
-          { name: 'Consumer Group Scaling', desc: 'Adding consumers up to partition count — backlog recovery strategies', tags: ['perf'] },
-          { name: 'At-Least-Once vs Exactly-Once', desc: 'Delivery semantics, idempotent consumers, transactional producers', tags: ['critical'] },
-          { name: 'Dead Letter Queues (DLQ)', desc: 'Poison message handling, retry policies, DLQ alerting', tags: ['critical', 'pattern'] },
-          { name: 'Outbox Pattern', desc: 'Atomic write + event publication without distributed transactions', tags: ['critical', 'pattern'] },
-          { name: 'Event Sourcing at Scale', desc: 'Snapshots for long streams, event schema evolution, CQRS read models', tags: ['pattern'] },
-          { name: 'Backpressure Implementation', desc: 'Reactive streams, flow control, dropping vs buffering vs blocking', tags: ['perf', 'critical'] },
-          { name: 'RabbitMQ vs Kafka vs SQS', desc: 'Feature comparison — latency, throughput, durability, operational cost', tags: ['pattern'] },
+          { name: 'Message Queue vs Event Bus', desc: 'Point-to-point vs publish-subscribe — routing, retention, replay', tags: ['pattern', 'critical'], link: 'https://aws.amazon.com/message-queue/' },
+          { name: 'Kafka Partitioning Strategy', desc: 'Partition count, key-based routing, consumer group parallelism', tags: ['critical', 'perf'], link: 'https://kafka.apache.org/documentation/#design_partitionassignment' },
+          { name: 'Consumer Group Scaling', desc: 'Adding consumers up to partition count — backlog recovery strategies', tags: ['perf'], link: 'https://kafka.apache.org/documentation/#intro_consumers' },
+          { name: 'At-Least-Once vs Exactly-Once', desc: 'Delivery semantics, idempotent consumers, transactional producers', tags: ['critical'], link: 'https://kafka.apache.org/documentation/#semantics' },
+          { name: 'Dead Letter Queues (DLQ)', desc: 'Poison message handling, retry policies, DLQ alerting', tags: ['critical', 'pattern'], link: 'https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html' },
+          { name: 'Outbox Pattern', desc: 'Atomic write + event publication without distributed transactions', tags: ['critical', 'pattern'], link: 'https://microservices.io/patterns/data/transactional-outbox.html' },
+          { name: 'Event Sourcing at Scale', desc: 'Snapshots for long streams, event schema evolution, CQRS read models', tags: ['pattern'], link: 'https://microservices.io/patterns/data/event-sourcing.html' },
+          { name: 'Backpressure Implementation', desc: 'Reactive streams, flow control, dropping vs buffering vs blocking', tags: ['perf', 'critical'], link: 'https://www.reactive-streams.org/' },
+          { name: 'RabbitMQ vs Kafka vs SQS', desc: 'Feature comparison — latency, throughput, durability, operational cost', tags: ['pattern'], link: 'https://www.rabbitmq.com/tutorials/amqp-concepts.html' },
         ]
       },
       {
         id: 'scale-resilience', icon: '✦', label: 'Resilience Patterns',
         desc: 'Failures are inevitable at scale. Resilience patterns determine whether a single failure causes a minor blip or a cascading system-wide outage.',
         topics: [
-          { name: 'Circuit Breaker Pattern', desc: 'Closed → Open → Half-Open states, failure thresholds, Resilience4j', tags: ['critical', 'pattern'] },
-          { name: 'Retry with Exponential Backoff', desc: 'Jitter, max retries, retry budget — avoiding retry storms', tags: ['critical', 'pattern'] },
-          { name: 'Bulkhead Pattern', desc: 'Thread pool / semaphore isolation — containing failures to one consumer', tags: ['pattern'] },
-          { name: 'Timeout Patterns', desc: 'Connect vs read timeout, cascading timeout budgets, deadline propagation', tags: ['critical'] },
-          { name: 'Fallback & Graceful Degradation', desc: 'Cached responses, default values, feature flags for degraded mode', tags: ['pattern'] },
-          { name: 'Chaos Engineering', desc: 'Chaos Monkey, Gremlin, fault injection — building confidence in resilience', tags: ['pattern'] },
-          { name: 'Health Checks (Liveness vs Readiness)', desc: 'Kubernetes probe design, dependency checks, circuit state in health', tags: ['critical'] },
-          { name: 'Saga Pattern for Distributed Transactions', desc: 'Choreography vs orchestration, compensating transactions', tags: ['critical', 'pattern'] },
+          { name: 'Circuit Breaker Pattern', desc: 'Closed → Open → Half-Open states, failure thresholds, Resilience4j', tags: ['critical', 'pattern'], link: 'https://martinfowler.com/bliki/CircuitBreaker.html' },
+          { name: 'Retry with Exponential Backoff', desc: 'Jitter, max retries, retry budget — avoiding retry storms', tags: ['critical', 'pattern'], link: 'https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/' },
+          { name: 'Bulkhead Pattern', desc: 'Thread pool / semaphore isolation — containing failures to one consumer', tags: ['pattern'], link: 'https://docs.microsoft.com/en-us/azure/architecture/patterns/bulkhead' },
+          { name: 'Timeout Patterns', desc: 'Connect vs read timeout, cascading timeout budgets, deadline propagation', tags: ['critical'], link: 'https://microservices.io/patterns/reliability/timeout.html' },
+          { name: 'Fallback & Graceful Degradation', desc: 'Cached responses, default values, feature flags for degraded mode', tags: ['pattern'], link: 'https://docs.microsoft.com/en-us/azure/architecture/patterns/queue-based-load-leveling' },
+          { name: 'Chaos Engineering', desc: 'Chaos Monkey, Gremlin, fault injection — building confidence in resilience', tags: ['pattern'], link: 'https://principlesofchaos.org/' },
+          { name: 'Health Checks (Liveness vs Readiness)', desc: 'Kubernetes probe design, dependency checks, circuit state in health', tags: ['critical'], link: 'https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/' },
+          { name: 'Saga Pattern for Distributed Transactions', desc: 'Choreography vs orchestration, compensating transactions', tags: ['critical', 'pattern'], link: 'https://microservices.io/patterns/data/saga.html' },
         ]
       },
       {
         id: 'scale-data', icon: '⬡', label: 'Data Layer Scaling',
         desc: 'Scaling stateless services is straightforward. Scaling stateful data systems — where every node must agree on truth — is the deep challenge of distributed systems.',
         topics: [
-          { name: 'CQRS at Scale', desc: 'Separate write and read models — independent scaling, eventual consistency', tags: ['critical', 'pattern'] },
-          { name: 'Database Sharding Strategies', desc: 'Application-level vs middleware-level sharding, resharding without downtime', tags: ['critical'] },
-          { name: 'Read Replica Routing', desc: 'Replica lag measurement, stale read tolerance, routing middleware', tags: ['perf'] },
-          { name: 'Distributed SQL (CockroachDB / Spanner)', desc: 'Serializable distributed transactions without application-level sharding', tags: ['pattern'] },
-          { name: 'Data Locality', desc: 'Co-locating computation with data — minimizing network hops', tags: ['perf'] },
-          { name: 'Hot Partition Mitigation', desc: 'Write spreading, key salting, adaptive sharding', tags: ['perf', 'critical'] },
-          { name: 'Global Data Strategies', desc: 'Active-active vs active-passive, conflict-free replicated data types (CRDTs)', tags: ['pattern'] },
+          { name: 'CQRS at Scale', desc: 'Separate write and read models — independent scaling, eventual consistency', tags: ['critical', 'pattern'], link: 'https://martinfowler.com/bliki/CQRS.html' },
+          { name: 'Database Sharding Strategies', desc: 'Application-level vs middleware-level sharding, resharding without downtime', tags: ['critical'], link: 'https://www.citusdata.com/blog/2017/08/28/sharding-postgres-large-tables/' },
+          { name: 'Read Replica Routing', desc: 'Replica lag measurement, stale read tolerance, routing middleware', tags: ['perf'], link: 'https://aws.amazon.com/rds/features/read-replicas/' },
+          { name: 'Distributed SQL (CockroachDB / Spanner)', desc: 'Serializable distributed transactions without application-level sharding', tags: ['pattern'], link: 'https://www.cockroachlabs.com/docs/stable/architecture/overview.html' },
+          { name: 'Data Locality', desc: 'Co-locating computation with data — minimizing network hops', tags: ['perf'], link: 'https://www.cockroachlabs.com/docs/stable/topology-patterns.html' },
+          { name: 'Hot Partition Mitigation', desc: 'Write spreading, key salting, adaptive sharding', tags: ['perf', 'critical'], link: 'https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-partition-key-uniform-load.html' },
+          { name: 'Global Data Strategies', desc: 'Active-active vs active-passive, conflict-free replicated data types (CRDTs)', tags: ['pattern'], link: 'https://crdt.tech/' },
         ]
       },
       {
         id: 'scale-infra', icon: '◎', label: 'Infrastructure Scaling',
         desc: 'Modern infrastructure scales automatically — but only if designed to. These concepts ensure your compute, networking, and deployment strategy matches your traffic patterns.',
         topics: [
-          { name: 'Horizontal Pod Autoscaler (HPA)', desc: 'CPU/memory-based, custom metrics (RPS, queue depth), scale-down delay', tags: ['perf', 'critical'] },
-          { name: 'Vertical Pod Autoscaler (VPA)', desc: 'Right-sizing containers, resource request tuning, VPA modes', tags: ['perf'] },
-          { name: 'KEDA — Event-Driven Autoscaling', desc: 'Scale to zero on queue depth, Kafka lag, custom external metrics', tags: ['perf', 'pattern'] },
-          { name: 'Cluster Autoscaler', desc: 'Node provisioning based on pending pods — cloud provider integration', tags: ['perf'] },
-          { name: 'Spot / Preemptible Instance Strategy', desc: '70%+ cost savings with graceful termination handling', tags: ['perf', 'pattern'] },
-          { name: 'CDN Architecture', desc: 'Edge caching, origin shield, cache invalidation, geo-distribution', tags: ['perf'] },
-          { name: 'Service Mesh (Istio/Linkerd)', desc: 'mTLS, traffic splitting, observability, retries at the mesh layer', tags: ['pattern'] },
-          { name: 'Multi-Region Active-Active', desc: 'Data replication lag, conflict resolution, global load balancing', tags: ['critical', 'pattern'] },
-          { name: 'Cell-Based Architecture', desc: 'Blast radius reduction, independent cell scaling, routing shards', tags: ['pattern'] },
+          { name: 'Horizontal Pod Autoscaler (HPA)', desc: 'CPU/memory-based, custom metrics (RPS, queue depth), scale-down delay', tags: ['perf', 'critical'], link: 'https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/' },
+          { name: 'Vertical Pod Autoscaler (VPA)', desc: 'Right-sizing containers, resource request tuning, VPA modes', tags: ['perf'], link: 'https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler' },
+          { name: 'KEDA — Event-Driven Autoscaling', desc: 'Scale to zero on queue depth, Kafka lag, custom external metrics', tags: ['perf', 'pattern'], link: 'https://keda.sh/docs/latest/concepts/' },
+          { name: 'Cluster Autoscaler', desc: 'Node provisioning based on pending pods — cloud provider integration', tags: ['perf'], link: 'https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler' },
+          { name: 'Spot / Preemptible Instance Strategy', desc: '70%+ cost savings with graceful termination handling', tags: ['perf', 'pattern'], link: 'https://aws.amazon.com/ec2/spot/' },
+          { name: 'CDN Architecture', desc: 'Edge caching, origin shield, cache invalidation, geo-distribution', tags: ['perf'], link: 'https://www.cloudflare.com/learning/cdn/cdn-load-balance-reliability/' },
+          { name: 'Service Mesh (Istio/Linkerd)', desc: 'mTLS, traffic splitting, observability, retries at the mesh layer', tags: ['pattern'], link: 'https://istio.io/latest/docs/concepts/what-is-istio/' },
+          { name: 'Multi-Region Active-Active', desc: 'Data replication lag, conflict resolution, global load balancing', tags: ['critical', 'pattern'], link: 'https://aws.amazon.com/blogs/database/building-a-multi-region-active-active-solution-on-amazon-dynamodb/' },
+          { name: 'Cell-Based Architecture', desc: 'Blast radius reduction, independent cell scaling, routing shards', tags: ['pattern'], link: 'https://aws.amazon.com/builders-library/workload-isolation-using-shuffle-sharding/' },
         ]
       },
       {
         id: 'scale-observe', icon: '⬔', label: 'Observability for Scale',
         desc: 'At scale, you cannot observe every instance — you must observe the emergent behavior of the system. These tools and practices make the invisible visible.',
         topics: [
-          { name: 'RED Method (Rate, Errors, Duration)', desc: 'The three signals for service health — latency histograms, error rates', tags: ['critical', 'perf'] },
-          { name: 'USE Method (Utilization, Saturation, Errors)', desc: 'Resource-oriented monitoring — CPU runqueue, memory OOM, disk I/O', tags: ['perf'] },
-          { name: 'Distributed Tracing', desc: 'Span propagation, sampling strategies, trace-based alerting (Jaeger/Tempo)', tags: ['critical'] },
-          { name: 'OpenTelemetry at Scale', desc: 'Collector architecture, sampling, metric cardinality control', tags: ['pattern', 'perf'] },
-          { name: 'SLO-Based Alerting', desc: 'Error budget burn rate alerts vs threshold alerts — fewer false positives', tags: ['critical'] },
-          { name: 'Cardinality in Metrics', desc: 'High-cardinality label explosion in Prometheus — design guardrails', tags: ['perf', 'critical'] },
-          { name: 'Log Aggregation at Scale', desc: 'Fluentd/Fluent Bit, Loki, Elasticsearch — sampling, retention cost', tags: ['perf'] },
-          { name: 'On-Call & Incident Response', desc: 'Runbooks, escalation policies, blameless postmortems, chaos drills', tags: ['critical'] },
+          { name: 'RED Method (Rate, Errors, Duration)', desc: 'The three signals for service health — latency histograms, error rates', tags: ['critical', 'perf'], link: 'https://www.weave.works/blog/the-red-method-key-metrics-for-microservices-architecture/' },
+          { name: 'USE Method (Utilization, Saturation, Errors)', desc: 'Resource-oriented monitoring — CPU runqueue, memory OOM, disk I/O', tags: ['perf'], link: 'https://www.brendangregg.com/usemethod.html' },
+          { name: 'Distributed Tracing', desc: 'Span propagation, sampling strategies, trace-based alerting (Jaeger/Tempo)', tags: ['critical'], link: 'https://opentelemetry.io/docs/concepts/signals/traces/' },
+          { name: 'OpenTelemetry at Scale', desc: 'Collector architecture, sampling, metric cardinality control', tags: ['pattern', 'perf'], link: 'https://opentelemetry.io/docs/collector/' },
+          { name: 'SLO-Based Alerting', desc: 'Error budget burn rate alerts vs threshold alerts — fewer false positives', tags: ['critical'], link: 'https://sre.google/workbook/alerting-on-slos/' },
+          { name: 'Cardinality in Metrics', desc: 'High-cardinality label explosion in Prometheus — design guardrails', tags: ['perf', 'critical'], link: 'https://www.robustperception.io/cardinality-is-key' },
+          { name: 'Log Aggregation at Scale', desc: 'Fluentd/Fluent Bit, Loki, Elasticsearch — sampling, retention cost', tags: ['perf'], link: 'https://grafana.com/docs/loki/latest/' },
+          { name: 'On-Call & Incident Response', desc: 'Runbooks, escalation policies, blameless postmortems, chaos drills', tags: ['critical'], link: 'https://sre.google/sre-book/being-on-call/' },
         ]
       },
     ]
@@ -1181,6 +1436,7 @@ function renderPillar(pid) {
                   <div class="t-desc">${escHtml(t.desc)}</div>
                   <div class="t-tags">${(t.tags||[]).map(tag => `<span class="t-tag tag-${tag}">${tag}</span>`).join('')}</div>
                 </div>
+                <button class="t-info-btn" data-tidx="${sec.topics.indexOf(t)}" data-secid="${sec.id}" data-pid="${pid}" title="View details">i</button>
               </div>
             `).join('')}
           </div>
@@ -1197,9 +1453,10 @@ function renderPillar(pid) {
       card.classList.toggle('s-open');
     });
 
-    // topic click
+    // topic click — toggle checkbox (ignore clicks from the info button)
     card.querySelectorAll('.t-item').forEach(item => {
-      item.addEventListener('click', () => {
+      item.addEventListener('click', (e) => {
+        if (e.target.closest('.t-info-btn')) return;
         const tname = item.dataset.topic;
         toggle(pid, sec.id, tname);
         item.classList.toggle('t-done');
@@ -1208,6 +1465,18 @@ function renderPillar(pid) {
         updatePillarHeader(pid);
         updateSeals();
         updateGlobalStats();
+      });
+    });
+
+    // info button — open detail popup
+    card.querySelectorAll('.t-info-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const tidx = parseInt(btn.dataset.tidx, 10);
+        const secid = btn.dataset.secid;
+        const ppid = btn.dataset.pid;
+        const section = PILLARS[ppid].sections.find(s => s.id === secid);
+        if (section) openTopicPopup(section.topics[tidx], ppid);
       });
     });
 
@@ -1290,6 +1559,339 @@ function escHtml(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
+// ── TOPIC POPUP ───────────────────────────────────────────────
+const TOPIC_KEY_POINTS = {
+  // API Design
+  'RESTful Resource Modeling': ['Use nouns, not verbs for endpoint paths', 'Resources are hierarchical — /users/{id}/orders', 'HTTP methods carry semantic meaning (GET, POST, PUT, DELETE)', 'Stateless interactions — no server-side session state'],
+  'OpenAPI / Swagger Spec': ['Machine-readable YAML/JSON contract for your API', 'Enables code generation for clients and servers', 'Supports request/response schema validation', 'Powers interactive docs via Swagger UI or Redoc'],
+  'API Versioning Strategies': ['URI versioning (/v1/...) is most discoverable', 'Header versioning keeps URLs clean', 'Content negotiation uses Accept headers', 'Always version from day one — retrofitting is painful'],
+  'HATEOAS': ['Responses include links to related actions', 'Client discovers capabilities at runtime', 'Reduces client-server coupling significantly', 'Rarely implemented in practice but valuable in theory'],
+  'Idempotency Design': ['Idempotency keys prevent duplicate side effects on retry', 'GET, PUT, DELETE are naturally idempotent', 'POST is not — use idempotency keys for payments etc.', 'Store key → result in Redis with TTL'],
+  'Pagination Patterns': ['Offset pagination is simple but slow at high offsets', 'Cursor pagination scales — uses opaque pointer', 'Keyset pagination uses indexed column values', 'Always cap page size to prevent abuse'],
+  'Request / Response Schema Design': ['Use consistent envelope: { data, error, meta }', 'Error objects need code, message, and details', 'Use camelCase for JSON, snake_case for databases', 'Never expose internal identifiers or stack traces'],
+  'GraphQL vs REST vs gRPC': ['REST: broad compatibility, cacheable, well-understood', 'GraphQL: flexible queries, single endpoint, no over-fetching', 'gRPC: binary protocol, typed contracts, low latency for internal services', 'Choose based on clients, not personal preference'],
+  'Backward Compatibility': ['Additive changes only — never remove or rename fields', 'Use deprecation headers (Deprecation, Sunset)', 'Maintain old versions for agreed sunset period', 'Automated contract tests catch regressions early'],
+  // Auth
+  'OAuth 2.0 Flows': ['Authorization Code + PKCE for user-facing apps', 'Client Credentials for machine-to-machine', 'Device Flow for TV/CLI apps with no browser', 'Never use Implicit flow — it is deprecated'],
+  'OpenID Connect (OIDC)': ['Adds identity layer on top of OAuth 2.0', 'ID Token is a JWT with user identity claims', 'UserInfo endpoint returns additional profile data', 'Discovery document at /.well-known/openid-configuration'],
+  'JWT — Structure & Validation': ['Three parts: header.payload.signature (Base64url)', 'Always validate: signature, exp, aud, iss, alg', 'Beware alg:none attack — whitelist algorithms explicitly', 'Keep payload small — JWTs are not encrypted by default'],
+  'JWT — Refresh Token Strategy': ['Short-lived access tokens (15m) + long-lived refresh tokens', 'Rotate refresh tokens on every use (refresh token rotation)', 'Revocation via denylist in Redis or DB', 'Silent refresh in browser before expiry'],
+  'API Keys & HMAC Signing': ['HMAC-SHA256 signs the canonical request string', 'Include timestamp to prevent replay attacks', 'Keys should be hashed (bcrypt/SHA-256) at rest', 'Rotate keys without downtime via key versioning'],
+  'mTLS (Mutual TLS)': ['Both client and server present X.509 certificates', 'Eliminates need for API keys in service-to-service calls', 'Certificates must be rotated before expiry', 'Works at network layer — transparent to application code'],
+  'RBAC vs ABAC': ['RBAC: roles assigned to users, permissions to roles', 'ABAC: policy evaluates user + resource + environment attributes', 'RBAC is simpler; ABAC is more expressive', 'Most systems start with RBAC and add ABAC for fine-grained needs'],
+  'Scopes & Claims Design': ['Scopes are coarse-grained (read:orders) — request minimal set', 'Claims enrich tokens with user context (tenant, tier, etc.)', 'Audience (aud) claim restricts token to specific service', 'Never put sensitive data in JWT payload — it is readable'],
+  'Session vs Token Auth': ['Sessions store state server-side — easy revocation, poor horizontal scale', 'JWTs are stateless — scale easily, hard to revoke', 'Hybrid: short-lived JWT + session for revocation control', 'Single sign-out is harder with JWTs'],
+  // Security
+  'OWASP API Security Top 10': ['BOLA: accessing other users\' objects via ID manipulation', 'Broken Auth: weak token handling, missing rate limits on auth', 'Excessive Data Exposure: returning more fields than needed', 'Mass Assignment: binding request body directly to DB models'],
+  'Input Validation & Sanitization': ['Validate type, format, length, and range at every boundary', 'Reject unknown fields — don\'t just ignore them', 'Use schema validators (Joi, Pydantic, Zod) not manual checks', 'Validate on server — never trust client-side validation'],
+  'SQL Injection Prevention': ['Use parameterized queries or prepared statements exclusively', 'ORMs protect you if used correctly — raw queries bypass this', 'Stored procedures can still be vulnerable if concatenating strings', 'Test with sqlmap in CI pipeline'],
+  'XSS & CSRF Protection': ['XSS: sanitize output, set Content-Security-Policy header', 'CSRF: use SameSite=Strict/Lax cookies, double-submit cookie pattern', 'CSRF tokens invalidate forged cross-origin requests', 'CSP blocks inline scripts and unauthorized script sources'],
+  'TLS/HTTPS Everywhere': ['Use TLS 1.3 — disable 1.0 and 1.1 entirely', 'HSTS forces HTTPS for all future requests', 'Certificate pinning for mobile apps prevents MITM', 'OCSP stapling reduces certificate validation latency'],
+  'Secrets Management': ['Never put secrets in code, config files, or environment variables in plaintext', 'Vault, AWS Secrets Manager provide dynamic, short-lived credentials', 'Rotate secrets automatically — no human access to production secrets', 'Audit every secret access with structured logs'],
+  'Security Headers': ['Content-Security-Policy: whitelist script and resource sources', 'X-Content-Type-Options: nosniff prevents MIME sniffing attacks', 'X-Frame-Options: DENY prevents clickjacking', 'Referrer-Policy: no-referrer-when-downgrade limits data leakage'],
+  'Audit Logging': ['Log: who, what, when, from where, success or failure', 'Use structured JSON logs — not human-readable strings', 'Ship to immutable store — logs must not be deletable', 'Include correlation IDs to trace full request chain'],
+  'Zero Trust Architecture': ['Assume breach — verify every request regardless of network location', 'Every service call requires authentication and authorization', 'Microsegmentation limits blast radius of any breach', 'Device posture, user identity, and context inform access decisions'],
+  // Rate Limiting
+  'Fixed Window Rate Limiting': ['Simple counter resets at fixed intervals (e.g., every minute)', 'Vulnerable to burst at window boundary — 2x rate possible', 'Easy to implement with Redis INCR + EXPIRE', 'Good for coarse-grained protection'],
+  'Sliding Window Algorithm': ['Tracks requests within a rolling time window', 'Two variants: sliding window log (accurate) and sliding window counter (approximate)', 'Sliding window counter uses two fixed windows with weighted sum', 'More accurate than fixed window — no burst at boundary'],
+  'Token Bucket Algorithm': ['Bucket holds N tokens; each request consumes one token', 'Tokens are added at a fixed rate — allows controlled bursting', 'Most common in production (AWS, Stripe, Nginx use this)', 'Store bucket state in Redis with Lua scripts for atomicity'],
+  'Leaky Bucket Algorithm': ['Requests enter a queue (bucket) and are processed at constant rate', 'Excess requests are dropped or queued — no bursting allowed', 'Smooths traffic spikes but increases latency under load', 'Good for metering egress traffic'],
+  'Distributed Rate Limiting': ['Each API node must share limit state — use Redis as central store', 'Lua scripts ensure atomic check-and-increment operations', 'Watch for Redis latency adding overhead to every API call', 'Consider approximate counting with local + remote counters'],
+  'Per-Client vs Global Limits': ['IP-based: fair per client but broken behind NAT', 'User-based: requires authentication first — best for logged-in APIs', 'API-key-based: most practical for developer APIs', 'Global limits protect backend regardless of client type'],
+  'Throttling vs Rate Limiting': ['Rate limiting: hard reject (429) when limit exceeded', 'Throttling: soft degradation — slower responses, reduced features', 'Priority queues let paid users skip throttled queues', 'Combine both for layered protection'],
+  'Backpressure Signaling': ['Return 429 Too Many Requests with Retry-After header', 'Clients must implement exponential backoff with jitter', 'Retry-After tells client exactly when to retry', 'Without jitter, all clients retry simultaneously — thundering herd'],
+  // API Perf
+  'Response Compression': ['Gzip reduces JSON responses by 60-80%', 'Brotli achieves better compression than Gzip at same CPU cost', 'Client signals support via Accept-Encoding header', 'Don\'t compress already-compressed formats (images, video)'],
+  'HTTP Caching Headers': ['Cache-Control: max-age=N tells clients how long to cache', 'ETag: fingerprint of response — used for conditional requests', 'If-None-Match: client sends ETag — server returns 304 if unchanged', 'Vary header ensures correct cache keys for content negotiation'],
+  'Connection Pooling': ['Keep-Alive reuses TCP connections across requests', 'HTTP/2 multiplexes multiple requests over one connection', 'Pool size = (upstream latency × requests/sec) — use Little\'s Law', 'Too few connections: queuing; too many: resource exhaustion'],
+  'HTTP/2 and HTTP/3': ['HTTP/2: multiplexing eliminates head-of-line blocking at HTTP layer', 'HTTP/2: header compression (HPACK) reduces overhead', 'HTTP/3: built on QUIC — UDP-based, eliminates TCP head-of-line blocking', 'HTTP/3: connection migration survives IP changes (mobile)'],
+  'Payload Optimization': ['Sparse fieldsets: ?fields=id,name returns only requested fields', 'GraphQL naturally avoids over-fetching', 'Projection in SQL: SELECT only needed columns', 'Avoid returning large arrays — use pagination'],
+  'Async APIs & Webhooks': ['Webhooks: server pushes events to client URL — must handle retries', 'SSE: server streams events to browser over HTTP — simple, unidirectional', 'WebSockets: full-duplex — good for chat, live dashboards', 'Long polling: client waits until server has data — high connection count'],
+  'CDN for APIs': ['Cache GET responses at edge for public data', 'Origin shield: single CDN node hits origin — reduces origin load', 'Cache invalidation is hard — use surrogate keys or versioned URLs', 'Geo-routing sends users to nearest PoP — reduces latency'],
+  'Bulk & Batch Endpoints': ['POST /batch accepts array of operations — reduces round trips', 'GraphQL batching via DataLoader', 'Compound documents embed related resources in one response', 'Limit batch size to prevent abuse'],
+  'N+1 Query Detection': ['N+1: loading list of N items triggers N additional queries', 'DataLoader batches and caches DB calls within a request', 'Eager loading (JOIN or includes) fetches relations upfront', 'Use query analyzers (Bullet gem, Hibernate stats) in development'],
+  // API Gateway
+  'API Gateway Responsibilities': ['Authentication and authorization at the edge', 'SSL/TLS termination — services receive plain HTTP internally', 'Request transformation, protocol translation', 'Rate limiting, logging, routing — centralized cross-cutting concerns'],
+  'Backend for Frontend (BFF)': ['One gateway per client type: mobile BFF, web BFF, partner BFF', 'Aggregates multiple microservice calls into one response', 'Tailored schema reduces over/under-fetching per client', 'Teams own their BFF — reduces coordination overhead'],
+  'Request Aggregation': ['Fan out to N services, await all responses, merge', 'Critical path latency = slowest downstream call', 'Use Promise.all or scatter-gather pattern', 'Partial failures need fallback strategy per sub-call'],
+  'Circuit Breaker at Gateway': ['Gateway opens circuit when downstream error rate exceeds threshold', 'Stops cascading failures from propagating upstream', 'Half-open state probes recovery — lets limited traffic through', 'Pair with fallback response or cached response'],
+  'Kong / AWS API Gateway / Envoy': ['Kong: open-source, Lua plugins, high performance, self-hosted or cloud', 'AWS API Gateway: managed, integrates with Lambda, limited customization', 'Envoy: data plane proxy, used in Istio, xDS configuration API', 'Choose based on team expertise and operational model'],
+  'Service Mesh vs API Gateway': ['API Gateway: north-south traffic (external to internal)', 'Service Mesh: east-west traffic (service to service)', 'Both can coexist — gateway at ingress, mesh inside cluster', 'Service mesh adds mTLS and observability transparently'],
+  'Observability at the Gateway': ['Access logs: structured JSON with request ID, latency, status code', 'Distributed tracing: inject trace context at gateway', 'Error rate per route — alert when error rate > threshold', 'Dashboards per team-owned route surface ownership'],
+  // DB Indexing
+  'B-Tree Index Internals': ['Balanced tree — all leaf nodes at same depth', 'Leaf nodes store key + pointer to heap tuple', 'Page splits on insert can cause bloat over time', 'Index height rarely exceeds 4 levels even for millions of rows'],
+  'Composite Index Design': ['Leading column must appear in WHERE clause for index to be used', 'Order: equality columns first, then range columns', 'Covering index includes all columns in SELECT — no heap fetch needed', 'Most selective column first maximizes filtering early'],
+  'Index Selectivity': ['High cardinality (UUID, email) = high selectivity = good index candidate', 'Low cardinality (boolean, status) = index may hurt — use partial index', 'Planner computes selectivity from table statistics (ANALYZE)', 'Force index reanalysis after large data changes'],
+  'EXPLAIN / EXPLAIN ANALYZE': ['EXPLAIN shows planned cost; EXPLAIN ANALYZE shows actual execution time', 'Seq Scan: full table scan — often bad on large tables', 'Index Scan: follows index then fetches heap — moderate cost', 'Bitmap Index Scan: batches heap fetches — efficient for range queries'],
+  'Partial & Filtered Indexes': ['Index only rows matching a WHERE condition: WHERE status = \'active\'', 'Smaller index — faster reads, less maintenance overhead', 'Must include filter condition in queries to use the index', 'Great for soft-delete patterns: WHERE deleted_at IS NULL'],
+  'Covering Indexes': ['Include all columns needed by a query in the index itself', 'Index-only scan: never touches the heap — very fast', 'PostgreSQL: CREATE INDEX ... INCLUDE (col1, col2)', 'Monitor pg_stat_user_indexes.idx_scan to verify usage'],
+  'Hash Indexes': ['O(1) equality lookups — faster than B-tree for = comparisons', 'Cannot support range queries, ORDER BY, or LIKE', 'PostgreSQL hash indexes are now WAL-logged (safe since v10)', 'Use B-tree unless you have proven equality-only workload'],
+  'GIN / GiST Indexes': ['GIN: inverted index — ideal for array, JSONB, full-text search', 'GiST: generalized search tree — geometric data, range types', 'GIN is faster to read; GiST is faster to update', 'Use pg_trgm extension with GIN for fuzzy text search'],
+  'Index Bloat & Maintenance': ['Dead tuples from UPDATEs and DELETEs are not immediately reclaimed', 'VACUUM reclaims dead tuples; VACUUM FULL rewrites the table', 'Autovacuum runs in background — tune scale_factor and cost_delay', 'REINDEX CONCURRENTLY rebuilds bloated indexes without locking'],
+  'Slow Query Log Analysis': ['pg_stat_statements: cumulative stats for all query shapes', 'Sort by total_time or mean_time to find worst offenders', 'MySQL slow_query_log with long_query_time threshold', 'Pair with EXPLAIN ANALYZE on identified queries'],
+  // DB Schema
+  '1NF / 2NF / 3NF / BCNF': ['1NF: atomic values, no repeating groups, primary key exists', '2NF: no partial dependency — all non-key columns depend on full key', '3NF: no transitive dependency — A→B→C means extract B and C', 'BCNF: every determinant is a candidate key — stricter than 3NF'],
+  'Denormalization Patterns': ['Materialized views precompute aggregates — refresh on schedule or trigger', 'Redundant columns avoid joins at read time', 'Caching computed values risks inconsistency — document invariants', 'Only denormalize after profiling proves the join is the bottleneck'],
+  'JSONB vs Relational Columns': ['JSONB stores binary JSON — supports indexing with GIN', 'Use JSONB for sparse, varying attributes (product metadata)', 'Use relational columns for frequently queried, typed data', 'Avoid deeply nested JSONB — extracting deep values is slow'],
+  'Surrogate vs Natural Keys': ['Surrogate key: synthetic ID (UUID, bigint serial) — stable, opaque', 'Natural key: business-meaningful (email, SSN) — changes in real world', 'UUID v4 causes index fragmentation — prefer UUIDv7 or ULID', 'Composite natural keys can work but make foreign keys verbose'],
+  'Soft Delete Patterns': ['Add deleted_at TIMESTAMP — NULL means active', 'Partial index on WHERE deleted_at IS NULL for performance', 'All queries must filter deleted_at — easy to forget, causes bugs', 'Consider event sourcing or archive tables for audit trail instead'],
+  'Temporal Tables': ['System-time versioning: DB auto-tracks row history', 'Application-time versioning: valid_from/valid_to business dates', 'Bitemporal: both system and application time — full audit capability', 'Query as-of a point in time: FOR SYSTEM_TIME AS OF \'2024-01-01\''],
+  'Polymorphic Associations': ['STI (Single Table Inheritance): one table, type discriminator column', 'CTI (Class Table Inheritance): base table + one table per subtype', 'STI simpler; CTI avoids sparse columns', 'JSON column as escape hatch for truly variable subtype data'],
+  'Schema Migrations Strategy': ['Expand-contract: add new column (expand), migrate data, drop old (contract)', 'Never rename or change type in one step — breaks running instances', 'Run migrations in CI before deploying new app version', 'Always test rollback of every migration before production'],
+  // DB Transactions
+  'ACID Properties Deep Dive': ['Atomicity: all-or-nothing — partial writes never visible', 'Consistency: DB moves from valid state to valid state', 'Isolation: concurrent transactions don\'t interfere with each other', 'Durability: committed data survives crashes — WAL ensures this'],
+  'Isolation Levels': ['Read Uncommitted: dirty reads possible — almost never used', 'Read Committed: default in PostgreSQL — no dirty reads', 'Repeatable Read: snapshot at transaction start — no phantom reads in PG', 'Serializable: full isolation — expensive but correct'],
+  'Dirty Reads, Phantom Reads, Lost Updates': ['Dirty Read: reading uncommitted data from another transaction', 'Non-Repeatable Read: same row returns different value in same transaction', 'Phantom Read: new rows appear in same range query within transaction', 'Lost Update: two transactions read-modify-write same row — one update lost'],
+  'MVCC (Multi-Version Concurrency)': ['Each row has xmin/xmax — transaction IDs that created/deleted it', 'Readers see snapshot of DB at transaction start — no read locks', 'Writers create new row versions — old versions cleaned by VACUUM', 'Enables high read concurrency without blocking writes'],
+  'Optimistic vs Pessimistic Locking': ['Optimistic: read, modify, check version hasn\'t changed, write', 'Pessimistic: acquire lock before reading — SELECT FOR UPDATE', 'Optimistic scales better — no lock held during user think time', 'Optimistic fails fast under high contention — needs retry logic'],
+  'Deadlock Detection & Prevention': ['Deadlock: T1 holds A waiting for B; T2 holds B waiting for A', 'Prevention: always acquire locks in same order across transactions', 'PostgreSQL detects deadlocks and kills one transaction', 'Use lock_timeout to fail fast instead of waiting indefinitely'],
+  'Long-Running Transactions': ['Hold locks for entire duration — blocks other writes', 'Prevent VACUUM from cleaning dead tuples — table bloat', 'Set statement_timeout and lock_timeout as safety nets', 'Break long operations into smaller batches'],
+  'Savepoints & Nested Transactions': ['SAVEPOINT name; creates a rollback point within a transaction', 'ROLLBACK TO SAVEPOINT name; undoes work since savepoint', 'Useful for try-catch within DB transactions', 'Not true nested transactions — still one outer transaction'],
+  'Two-Phase Commit (2PC)': ['Phase 1 (Prepare): all nodes vote yes/no on committing', 'Phase 2 (Commit/Abort): coordinator sends final decision', 'Blocking protocol — failure of coordinator leaves nodes in prepared state', 'Avoid 2PC: prefer saga pattern or single authoritative DB'],
+  // DB Replication
+  'Synchronous vs Async Replication': ['Sync: primary waits for replica ACK — zero data loss, higher latency', 'Async: primary continues after local write — may lose recent data on failover', 'Semi-sync: wait for at least one replica — balance of safety and performance', 'RPO = 0 requires synchronous replication'],
+  'Primary / Replica (Read Replicas)': ['Replicas serve read traffic — reduces primary load', 'Replica lag: writes not yet applied — reads may be stale', 'Read-your-writes: route reads to primary after a write', 'Connection router (ProxySQL, pgpool) directs traffic by query type'],
+  'Streaming Replication (PostgreSQL)': ['Replica streams WAL records from primary continuously', 'Replication slots prevent WAL deletion until replica consumes it', 'Monitor pg_stat_replication.write_lag for health', 'pg_basebackup creates initial replica from running primary'],
+  'Logical Replication': ['Replicates changes at row level, not WAL byte level', 'Subscribe to specific tables — not entire database', 'Used for zero-downtime major version upgrades', 'Enables Change Data Capture (CDC) to Kafka or other sinks'],
+  'Multi-Primary Replication': ['All nodes accept writes — write conflicts must be resolved', 'Galera uses synchronous certification-based replication', 'CockroachDB uses Raft for distributed consensus', 'Active-active across regions — complex conflict resolution required'],
+  'Failover Automation': ['Patroni uses etcd/Consul/ZooKeeper for distributed leader election', 'Promotes replica to primary automatically on failure', 'Fencing prevents split-brain — old primary must be stopped', 'Test failover regularly — untested failover fails when you need it'],
+  'Connection Pooling (PgBouncer / ProxySQL)': ['PgBouncer: lightweight PostgreSQL pooler — transaction mode recommended', 'Transaction mode: connection released after each transaction — highest utilization', 'Session mode: connection held for client session — compatible with all features', 'Right-size pool: DB max_connections ÷ number of app instances'],
+  'Backup Strategies': ['pg_dump: logical backup — portable, restores to different version', 'WAL-G: continuous WAL archiving — point-in-time recovery', 'Snapshot: storage-level — fast backup but tied to same storage system', 'Test restore monthly — backup without restore test is not a backup'],
+  // Sharding
+  'Horizontal Partitioning (Sharding)': ['Split rows across multiple DB instances by shard key', 'Each shard is an independent DB — full SQL within a shard', 'Cross-shard operations require application-level scatter-gather', 'Shard key is the most consequential design decision'],
+  'Shard Key Selection': ['High cardinality: distributes data evenly across shards', 'Write distribution: avoid hotspots (e.g., don\'t shard by date)', 'Query alignment: most queries should hit single shard', 'Immutable: changing shard key requires full data migration'],
+  'Consistent Hashing for Shards': ['Maps keys to a ring — each node owns a range of the ring', 'Adding/removing nodes only remaps 1/N keys', 'Virtual nodes smooth out imbalances from uneven hash distribution', 'Used by DynamoDB, Cassandra, Redis Cluster'],
+  'Range vs Hash Sharding': ['Range: rows sorted by key — efficient range scans, hotspot risk', 'Hash: uniform distribution — no hotspots, poor range scan performance', 'List: explicit mapping of key values to shards — for known discrete values', 'Choose by query pattern: analytics → range; OLTP → hash'],
+  'PostgreSQL Table Partitioning': ['Declarative syntax: PARTITION BY RANGE/LIST/HASH', 'Partition pruning skips irrelevant partitions at query plan time', 'Local indexes on each partition — no cross-partition index', 'Great for time-series data with rolling partition drops'],
+  'Cross-Shard Queries': ['Scatter-gather: fan out query to all shards, merge results', 'Distributed joins are very expensive — avoid in hot path', 'Denormalize data to make common queries single-shard', 'Use dedicated reporting DB (data warehouse) for analytics'],
+  'Resharding Strategies': ['Double-write: write to old and new sharding scheme simultaneously', 'Backfill: copy existing data to new scheme in background', 'Dual-read: read from both until new scheme verified', 'Cutover: switch traffic, keep old scheme for rollback window'],
+  'Vitess / Citus': ['Vitess: sharding middleware for MySQL — used by YouTube', 'Citus: PostgreSQL extension for distributed tables', 'Both handle cross-shard queries transparently to application', 'Operational complexity is significant — evaluate need carefully'],
+  // DB Caching
+  'Cache-Aside (Lazy Loading)': ['App checks cache first; on miss, loads from DB and populates cache', 'Cache never contains stale data for uncached keys', 'Cold start: first requests after deploy are cache misses', 'Most common pattern — used by most caching implementations'],
+  'Write-Through Cache': ['Every write updates cache and DB in same operation', 'No stale reads — cache always reflects DB state', 'Write penalty: every write is slower due to double write', 'Cache always warm — no cold start problem'],
+  'Write-Behind (Write-Back)': ['Write to cache immediately; DB write is async (batched)', 'Lower write latency — DB write is off the critical path', 'Risk: data loss if cache fails before DB write', 'Good for high-write workloads where some data loss is acceptable'],
+  'Read-Through Cache': ['Cache sits transparently between app and DB', 'On miss, cache fetches from DB, stores, and returns', 'App always talks to cache — simpler code than cache-aside', 'Cache vendor (Redis) must support this pattern'],
+  'Cache Invalidation Strategies': ['TTL: simple but allows stale reads until expiry', 'Event-driven: invalidate on write — requires pub/sub or hook', 'Write-through: invalidate by overwriting — always fresh', 'Cache versioning: new key per version — old entries expire naturally'],
+  'Cache Stampede Prevention': ['When popular key expires, many concurrent requests hit DB simultaneously', 'Probabilistic early expiry: recompute slightly before actual expiry', 'Distributed lock on miss: one request fetches, others wait', 'Request coalescing: deduplicate in-flight requests for same key'],
+  'Hot Key Problem': ['Single key gets disproportionate traffic — single Redis node bottleneck', 'Local cache (L1): cache hot keys in application memory', 'Key sharding: replicate hot key as key#1, key#2, etc.', 'Read replicas in Redis Cluster reduce hot node pressure'],
+  'Redis Data Structures for DB Caching': ['String: simple key-value, full object serialization (JSON)', 'Hash: store object fields separately — partial updates', 'Sorted Set: leaderboards, time-ordered data, range queries', 'HyperLogLog: count unique items with fixed memory (~12KB)'],
+  // NoSQL
+  'DynamoDB Single-Table Design': ['All entity types in one table — access pattern drives key design', 'PK + SK composite key enables multiple entity types per partition', 'GSI inverts keys for alternate access patterns', 'Avoid hot partitions — distribute writes across partition key space'],
+  'Cassandra Data Modeling': ['Data model is defined by queries, not by entities', 'Partition key determines node — partition must fit in memory', 'Wide rows: many columns per partition — avoid unbounded growth', 'Tombstones from deletes cause read amplification — use TTL instead'],
+  'MongoDB Index Optimization': ['Compound indexes follow ESR rule: Equality, Sort, Range', 'Covered queries: index has all projected fields — no doc fetch', 'explain(\'executionStats\') reveals actual index usage', 'Text indexes for full-text search; 2dsphere for geo queries'],
+  'MongoDB Aggregation Pipeline': ['$match early to reduce documents flowing through pipeline', '$project immediately after $match to reduce field set', '$lookup is expensive — denormalize if done frequently', 'Use allowDiskUse for large aggregations but prefer indexes'],
+  'Redis Eviction Policies': ['noeviction: returns error when memory full — use for source of truth', 'allkeys-lru: evict least recently used from all keys — general caching', 'volatile-lru: evict LRU among keys with TTL set', 'allkeys-lfu: evict least frequently used — better for skewed access'],
+  'Cassandra Anti-patterns': ['ALLOW FILTERING: full scan of partition — never in production', 'Large partitions: >100MB causes memory and compaction issues', 'Secondary indexes: node-local, require cluster-wide scatter-gather', 'Unbounded collections: list/set/map columns can grow without limit'],
+  'Time-Series Optimization': ['Time-series data: append-only, high write rate, range queries by time', 'Bucket pattern: group measurements into time-bucket documents', 'Downsampling: aggregate old data (minute→hour→day) to reduce storage', 'Retention policies auto-delete old data — critical for cost control'],
+  // Scale Fundamentals
+  'Vertical vs Horizontal Scaling': ['Vertical: bigger machine — CPU, RAM, faster disk. Simple but has ceiling', 'Horizontal: more machines — requires stateless services, distributed state', 'Vertical is faster to implement; horizontal is more resilient', 'Cloud makes horizontal scaling easier — auto-scaling groups'],
+  'Scalability vs Elasticity': ['Scalability: system designed to handle more load when scaled', 'Elasticity: system scales up and down automatically with load', 'Scalability is a design property; elasticity is an operational capability', 'Auto-scaling groups + stateless services = elastic by default'],
+  'Latency vs Throughput': ['Latency: time for single request. Throughput: requests per second', 'Little\'s Law: L = λW — concurrency = arrival rate × service time', 'P99 latency matters more than average — protects worst-case users', 'Improving throughput often increases latency — find the knee of the curve'],
+  'Bottleneck Identification': ['USE Method: Utilization, Saturation, Errors per resource', 'CPU: check runqueue length (saturation), not just utilization', 'Memory: watch for swapping — any swap = performance crisis', 'I/O: check iowait, disk queue depth, and throughput vs capacity'],
+  "Amdahl's Law": ['Speedup = 1 / (1 - P + P/N) where P is parallelizable fraction', 'If 5% is serial, max speedup is 20x regardless of cores', 'Coordination overhead (locks, network) increases the serial fraction', 'Law explains why 100x scale requires near-zero serial work'],
+  'Capacity Planning': ['Load test at 2x and 10x expected peak before launch', 'Traffic modeling: project growth from current trend + business plan', 'Headroom: run at <70% capacity to absorb unexpected spikes', 'Cost per RPS: normalize cost to request so you can compare architectures'],
+  'SLI / SLO / SLA': ['SLI: actual measurement (e.g., 99.5% requests < 200ms)', 'SLO: target for SLI (e.g., 99.9% of requests < 200ms over 30 days)', 'SLA: contractual commitment with consequences for breach', 'Error budget = 1 - SLO — spend it on risky changes, not incidents'],
+  'Thundering Herd Problem': ['Occurs when many clients retry simultaneously after server recovery', 'Cache stampede: many keys expire at same time after cache restart', 'Prevention: exponential backoff with jitter, staggered TTLs', 'Connection storm: limit reconnect rate with backoff at client'],
+  // Load Balancing
+  'L4 vs L7 Load Balancing': ['L4: routes TCP/UDP streams by IP+port — no HTTP awareness', 'L7: parses HTTP — routes by path, host, headers, cookies', 'L4 is faster — less CPU; L7 enables smarter routing', 'L7 required for: path-based routing, SSL termination, HTTP/2'],
+  'Round Robin & Weighted RR': ['Round Robin: equal distribution — assumes homogeneous backends', 'Weighted RR: assign higher weight to more powerful nodes', 'Doesn\'t account for in-flight request count — use Least Connections instead', 'Simple and predictable — good starting point'],
+  'Least Connections': ['Routes new request to node with fewest active connections', 'Better than Round Robin when requests have variable processing time', 'Requires connection count tracking — slight overhead', 'Least Outstanding Requests is a variant that also weights by response time'],
+  'Consistent Hashing for LB': ['Hash request attribute (user ID, session) to select backend', 'Adding/removing nodes only remaps 1/N keys', 'Enables session affinity without central state', 'Used when backend has local cache tied to specific user data'],
+  'Health Checks & Circuit Breaking': ['Active: LB probes /health endpoint periodically', 'Passive: LB monitors real traffic error rates', 'Unhealthy ejection: remove failing backend from rotation', 'Panic threshold: if >X% backends unhealthy, route to all anyway'],
+  'Global Load Balancing (GSLB)': ['DNS-based: return different IP per region based on client location', 'Anycast: same IP, BGP routes to nearest PoP — used by Cloudflare', 'Latency-based: route to region with lowest measured latency', 'Failover: redirect all traffic if entire region is unhealthy'],
+  'Sticky Sessions': ['Bind user session to specific backend — required for stateful apps', 'Cookie-based: LB inserts cookie with backend ID', 'Problem: uneven load if some users are much more active', 'Solution: externalize session state to Redis — then stickiness unneeded'],
+  'HAProxy / NGINX / AWS ALB / Envoy': ['HAProxy: battle-tested, extremely fast, rich ACL language, C-based', 'NGINX: web server + reverse proxy + LB — broad ecosystem', 'AWS ALB: managed, integrates with AWS ecosystem, WAF, target groups', 'Envoy: xDS API for dynamic config, used as data plane in Istio'],
+  // Caching at Scale
+  'Redis Cluster Architecture': ['Data split across 16,384 hash slots — deterministic slot per key', 'Each master owns a slot range; replicas provide HA', 'MOVED redirect: if key not on this node, client redirects', 'Resharding moves slots live — no downtime'],
+  'Memcached at Scale': ['Multi-threaded — saturates all CPU cores unlike Redis\' single thread', 'No persistence, no replication — pure cache, no data durability', 'Simpler than Redis — lower memory overhead per key', 'Use when you need maximum throughput and don\'t need Redis features'],
+  'Cache Topology Patterns': ['L1: in-process cache (Caffeine) — nanosecond latency', 'L2: distributed cache (Redis) — microsecond latency', 'L3: database — millisecond latency', 'Write-through hierarchy: writes propagate down from L1 to DB'],
+  'Cache Warming Strategies': ['Cold start: all requests miss cache → DB overload on deploy', 'Pre-warm: load popular keys into cache before switching traffic', 'Gradual shift: route small % of traffic to new cache, increase over time', 'Read-through with stampede protection handles warm-up automatically'],
+  'Consistent Hashing in Caches': ['Each cache node owns a range of the hash ring', 'Adding node: only 1/N keys remapped — minimal disruption', 'Virtual nodes: each physical node has multiple ring positions', 'Ketama algorithm is standard implementation in Memcached clients'],
+  'Multi-Region Cache Coherence': ['Cache in each region — reduces cross-region latency', 'Write to origin region, invalidate remote regions', 'Eventual consistency: remote regions may serve stale data briefly', 'Use TTL as safety net — stale data expires eventually'],
+  'Local In-Process Caching': ['Zero network latency — cache lives in JVM/process heap', 'Caffeine: near-optimal eviction via W-TinyLFU algorithm', 'Each app instance has independent copy — updates need broadcast', 'Use for immutable or slowly-changing reference data'],
+  // Async
+  'Message Queue vs Event Bus': ['Queue: point-to-point — one consumer processes each message', 'Event bus: pub/sub — multiple consumers receive each event', 'Queue provides load balancing; bus provides fan-out', 'Kafka blurs the line — persistent log with consumer groups'],
+  'Kafka Partitioning Strategy': ['Partitions = max parallelism for a topic', 'Key-based routing: same key → same partition → ordered processing', 'Too few partitions: consumer bottleneck; too many: overhead', 'Rule of thumb: 10–30 partitions per topic for most workloads'],
+  'Consumer Group Scaling': ['Each partition assigned to one consumer in group', 'Max parallelism = number of partitions — extra consumers are idle', 'Rebalance on consumer join/leave — brief processing pause', 'Increase partitions to scale beyond current consumer count'],
+  'At-Least-Once vs Exactly-Once': ['At-least-once: commit offset after processing — may reprocess on failure', 'Exactly-once: Kafka transactional API — producer + consumer atomic', 'Idempotent consumers: safe to process same message multiple times', 'Exactly-once adds overhead — at-least-once + idempotency usually sufficient'],
+  'Dead Letter Queues (DLQ)': ['Messages that repeatedly fail processing are moved to DLQ', 'Prevents poison messages from blocking the queue', 'Alert on DLQ depth — indicates systemic processing failure', 'Periodically replay DLQ after fixing the consumer bug'],
+  'Outbox Pattern': ['Write event to outbox table in same DB transaction as domain write', 'Separate relay process reads outbox and publishes to message broker', 'Guarantees at-least-once delivery without distributed transactions', 'Polling or CDC (Debezium) to detect new outbox entries'],
+  'Event Sourcing at Scale': ['Append events to stream — current state derived by replaying', 'Snapshots prevent full replay — store state at checkpoint', 'Event schema evolution: use versioning and upcasters', 'CQRS separates write model (events) from read model (projections)'],
+  'Backpressure Implementation': ['Reactive Streams spec defines backpressure protocol', 'Consumer signals demand — producer sends only N items', 'Dropping: shed load by discarding excess messages — lossy', 'Blocking: producer waits — simple but risks deadlock under load'],
+  'RabbitMQ vs Kafka vs SQS': ['RabbitMQ: push-based, rich routing, low latency, messages deleted on ack', 'Kafka: pull-based, persistent log, replay, high throughput', 'SQS: managed AWS queue, at-least-once, visibility timeout model', 'Kafka for event sourcing/CDC; RabbitMQ for task queues; SQS for AWS-native'],
+  // Resilience
+  'Circuit Breaker Pattern': ['Closed: requests flow normally, failures tracked', 'Open: requests fail fast without calling downstream', 'Half-Open: limited traffic probes if downstream recovered', 'Resilience4j, Hystrix, or Envoy implement this pattern'],
+  'Retry with Exponential Backoff': ['Base delay doubles each retry: 100ms, 200ms, 400ms, 800ms...', 'Jitter: add random offset to prevent synchronized retries', 'Max retries + timeout budget to prevent infinite retry loops', 'Only retry idempotent operations or explicitly safe ones'],
+  'Bulkhead Pattern': ['Isolate thread pools per downstream dependency', 'Failure in one pool doesn\'t consume threads from others', 'Semaphore isolation: limits concurrent calls without dedicated threads', 'Size bulkheads based on expected downstream response time'],
+  'Timeout Patterns': ['Connect timeout: time to establish connection (should be short, <1s)', 'Read timeout: time to receive full response (domain-dependent)', 'Deadline propagation: subtract elapsed time from downstream timeout budget', 'Missing timeouts cause thread exhaustion under downstream slowness'],
+  'Fallback & Graceful Degradation': ['Return cached response if downstream fails', 'Return empty/default value when feature is non-critical', 'Feature flags: disable expensive features under high load', 'Never fail hard when a degraded response is acceptable'],
+  'Chaos Engineering': ['Inject failures deliberately to find weaknesses before real outages', 'Start in staging; graduate to production with blast radius control', 'Chaos Monkey: terminates random instances in production', 'Game days: scheduled failure injection with team observing'],
+  'Health Checks (Liveness vs Readiness)': ['Liveness: is the process alive? Restart if fails.', 'Readiness: is the process ready to serve traffic? Remove from LB if fails.', 'Startup probe: give slow-starting apps time before liveness kicks in', 'Deep health check: verify DB, cache, downstream connectivity'],
+  'Saga Pattern for Distributed Transactions': ['Sequence of local transactions, each publishing event to trigger next', 'On failure: compensating transactions undo previous steps', 'Choreography: each service listens for events — decoupled, hard to trace', 'Orchestration: central coordinator — easier to trace, single point of control'],
+  // Data Layer
+  'CQRS at Scale': ['Write model: optimized for transactional consistency', 'Read model: optimized for query — denormalized, pre-computed', 'Sync via events: write side publishes events, read side consumes', 'Independent scaling: read replicas for read model only'],
+  'Database Sharding Strategies': ['Application-level: app computes shard from key — total control', 'Middleware: proxy computes shard — transparent to app', 'Resharding: most painful operation — plan for it from day one', 'Avoid cross-shard transactions — they are expensive and error-prone'],
+  'Read Replica Routing': ['Synchronous replication: replica is always up-to-date (high latency)', 'Asynchronous: replica may lag seconds — stale reads possible', 'Stale read tolerance: most reads tolerate some lag (analytics, feeds)', 'Read-your-writes: route user\'s reads to primary for session consistency'],
+  'Distributed SQL (CockroachDB / Spanner)': ['Distributed SQL with serializable transactions — no app-level sharding', 'Data automatically distributed and balanced across nodes', 'Higher latency than single-node DB — consensus requires round trips', 'Google Spanner uses TrueTime for external consistency'],
+  'Data Locality': ['Co-locate computation with data to avoid network hops', 'Push aggregation into DB — don\'t fetch all rows to aggregate in app', 'MapReduce/Spark move code to data — not data to code', 'CockroachDB LOCALITY constraints pin data to geographic regions'],
+  'Hot Partition Mitigation': ['Write spreading: distribute writes with random suffix on hot key', 'Adaptive sharding: automatically split hot shards', 'Key salting: add prefix to distribute across partition key space', 'Monitor partition-level write throughput to detect hot spots early'],
+  'Global Data Strategies': ['Active-passive: one region handles writes, others read-only replicas', 'Active-active: all regions accept writes — conflict resolution required', 'CRDTs: data structures that merge without conflicts (counters, sets)', 'Choose based on write conflict probability and consistency requirements'],
+  // Infrastructure
+  'Horizontal Pod Autoscaler (HPA)': ['Scales pod count based on CPU, memory, or custom metrics', 'Custom metrics via KEDA or Prometheus adapter — queue depth, RPS', 'Scale-down delay (--horizontal-pod-autoscaler-downscale-stabilization): prevents thrashing', 'Set requests accurately — HPA uses requests, not actual usage'],
+  'Vertical Pod Autoscaler (VPA)': ['Automatically adjusts CPU and memory requests/limits', 'Three modes: Off (recommend only), Initial (set on creation), Auto (recreate pods)', 'Cannot run HPA on CPU/memory + VPA Auto simultaneously', 'Use VPA in recommendation mode first to tune resources'],
+  'KEDA — Event-Driven Autoscaling': ['Scale to zero when queue is empty — save cost on idle workloads', 'Scalers: Kafka lag, SQS depth, Redis list length, custom metrics', 'Replaces HPA for event-driven workloads', 'Works with any Kubernetes workload — Deployments, Jobs, StatefulSets'],
+  'Cluster Autoscaler': ['Provisions new nodes when pods are Pending due to resource shortage', 'De-provisions nodes when utilization is low for sustained period', 'Requires cloud provider integration (AWS, GCP, Azure)', 'Works with spot/preemptible nodes — handles termination gracefully'],
+  'Spot / Preemptible Instance Strategy': ['60-90% cost savings over on-demand pricing', 'Must handle 2-minute termination notice gracefully', 'Drain pod before termination: preStop hook + terminationGracePeriodSeconds', 'Mix spot + on-demand: spot for batch/stateless, on-demand for stateful'],
+  'CDN Architecture': ['Edge PoPs cache content close to users — reduces origin load', 'Origin shield: one CDN node acts as cache for origin — reduces origin requests', 'Cache-Control headers determine CDN caching behavior', 'Purge by surrogate key (cache tag) for efficient targeted invalidation'],
+  'Service Mesh (Istio/Linkerd)': ['Sidecar proxy (Envoy) injected into each pod — transparent to app', 'mTLS between all services — zero-trust by default', 'Traffic splitting: canary deployments, A/B testing at mesh layer', 'Distributed tracing, metrics collected without app code changes'],
+  'Multi-Region Active-Active': ['Both regions accept writes — requires conflict resolution strategy', 'Data replication lag: writes in region A visible in region B with delay', 'Global load balancer routes users to nearest region', 'Test regional failover regularly — runbooks and automated failover'],
+  'Cell-Based Architecture': ['System divided into independent cells — each serves a subset of users', 'Failure in one cell doesn\'t affect others — blast radius controlled', 'Route user to their cell via routing tier (Zuul, custom DNS)', 'Cells scale independently — add cells to add capacity'],
+  // Observability
+  'RED Method (Rate, Errors, Duration)': ['Rate: requests per second — proxy for load and demand', 'Errors: error rate (4xx/5xx) — proxy for correctness', 'Duration: latency distribution (P50, P95, P99) — proxy for experience', 'Dashboard one RED panel per service — instant health overview'],
+  'USE Method (Utilization, Saturation, Errors)': ['Utilization: % time resource is busy — CPU%, disk busy%', 'Saturation: extra work waiting — runqueue length, disk queue', 'Errors: error events — CPU exceptions, disk I/O errors', 'Apply to every resource: CPU, memory, disk, network, locks'],
+  'Distributed Tracing': ['Each request assigned a trace ID — propagated via headers (B3, W3C)', 'Spans represent individual operations — nested to form trace tree', 'Sampling: trace 1% of traffic to control storage cost', 'Tail sampling: always sample slow or errored traces'],
+  'OpenTelemetry at Scale': ['Single SDK for traces, metrics, and logs — vendor neutral', 'Collector: receive, process, and export telemetry data', 'Sampling at collector: tail-based, probabilistic, or adaptive', 'Cardinality: avoid high-cardinality labels (user ID) in metrics'],
+  'SLO-Based Alerting': ['Burn rate: how fast you\'re consuming your error budget', 'Fast burn alert (1h): consuming 14.4x normal rate — page now', 'Slow burn alert (6h): consuming 6x rate — warn, no page', 'Fewer alerts than threshold-based — aligned to user impact'],
+  'Cardinality in Metrics': ['Each unique label combination is a time series', 'High cardinality (user_id label) → millions of time series → OOM', 'Design labels for low cardinality: status_code, region, service', 'Use exemplars or tracing for per-request detail, not metrics'],
+  'Log Aggregation at Scale': ['Fluent Bit: lightweight agent on each node — forward to collector', 'Loki: log storage indexed by labels only — cheap at scale', 'Sampling: log 10% of successful requests, 100% of errors', 'Retention: keep hot logs 7 days, archive to S3 for 90 days'],
+  'On-Call & Incident Response': ['Runbooks: step-by-step procedures for common failure modes', 'Escalation policy: page → ack → escalate in 15min if no ack', 'Blameless postmortems: focus on systemic causes, not individuals', 'Chaos drills: practice incident response before real incidents']
+};
+
+const TOPIC_EXTRA = {
+  'RESTful Architecture': {
+    overview: 'REST (Representational State Transfer) is an architectural style that defines constraints for creating web services. True REST APIs use HTTP methods (GET, POST, PUT, DELETE) explicitly, are stateless, cacheable, and use resource-based URIs.',
+    tip: 'Use standard HTTP status codes (201 Created, 404 Not Found) instead of returning 200 OK with an error payload.'
+  },
+  'GraphQL API Design': {
+    overview: 'GraphQL is a query language for APIs that allows clients to request exactly the data they need. It provides a single endpoint and uses a strong type system to define the API\'s capabilities, solving over-fetching and under-fetching issues.',
+    tip: 'Watch out for the N+1 query problem. Always use DataLoader to batch and cache database requests triggered by nested resolvers.'
+  },
+  'gRPC & Protobuf': {
+    overview: 'gRPC is a high-performance, open-source Remote Procedure Call framework. It uses Protocol Buffers (Protobuf) as its interface definition language and binary message format, operating over HTTP/2 for multiplexed streaming.',
+    tip: 'Ideal for low-latency internal microservice communication, but requires a proxy (like Envoy) to be consumed directly by web browsers.'
+  },
+  'Idempotency in APIs': {
+    overview: 'An API endpoint is idempotent if making multiple identical requests has the same effect as making a single request. This is crucial for safely handling retries over unreliable networks without causing duplicate actions.',
+    tip: 'Require an Idempotency-Key header for all POST endpoints that result in state changes or financial transactions.'
+  },
+  'API Rate Limiting': {
+    overview: 'Rate limiting controls the number of requests a client can make within a specified timeframe. It protects your APIs from abuse, DDoS attacks, and noisy neighbors, ensuring fair resource distribution.',
+    tip: 'Use the Token Bucket or Leaky Bucket algorithms in Redis for distributed, low-latency rate limiting across multiple API gateway nodes.'
+  },
+  'OAuth 2.0 & OIDC': {
+    overview: 'OAuth 2.0 is an authorization framework that enables third-party applications to obtain limited access to an HTTP service. OpenID Connect (OIDC) sits on top of OAuth 2.0 to add identity and authentication.',
+    tip: 'Never implement your own OAuth server unless absolutely necessary; use established providers like Auth0, AWS Cognito, or Keycloak.'
+  },
+  'ACID vs BASE Properties': {
+    overview: 'ACID ensures strong consistency and reliability for relational databases, while BASE prioritizes availability and performance in distributed NoSQL systems, accepting eventual consistency.',
+    tip: 'Don\'t use a BASE-oriented system for financial ledgers or inventory management where strong consistency is non-negotiable.'
+  },
+  'Database Indexing Deep Dive': {
+    overview: 'Indexes are data structures (typically B-Trees) that improve the speed of data retrieval operations on a database table at the cost of additional writes and storage space.',
+    tip: 'Monitor for "over-indexing". Every index slows down INSERT/UPDATE/DELETE operations. Drop indexes that are rarely used by the query planner.'
+  },
+  'Database Sharding Strategies': {
+    overview: 'Sharding splits a single logical dataset across multiple database instances. By distributing data, a cluster can store larger datasets and handle higher read/write throughput than a single node.',
+    tip: 'Avoid cross-shard queries whenever possible. They eliminate the performance benefits of sharding by requiring expensive scatter-gather operations.'
+  },
+  'DynamoDB Single-Table Design': {
+    overview: 'Unlike relational DBs, DynamoDB encourages storing all entities in a single table. You design your schema based entirely on your application\'s access patterns rather than entity relationships.',
+    tip: 'Before creating the table, list every query your application will make. Partition and sort keys must be carefully designed to answer these specific queries efficiently.'
+  },
+  'Cache-Aside (Lazy Loading)': {
+    overview: 'The application first checks the cache. If data is found, it returns it. If not, it queries the DB, stores the result in the cache for future requests, and then returns it.',
+    tip: 'Always set a Time-To-Live (TTL) on cached items to ensure data eventually expires, forcing a fresh fetch to prevent permanently stale data.'
+  },
+  'Vertical vs Horizontal Scaling': {
+    overview: 'Vertical scaling (scaling up) means adding more power (CPU, RAM) to an existing machine. Horizontal scaling (scaling out) means adding more machines to your pool of resources.',
+    tip: 'Design your application to be stateless from day one. This makes horizontal scaling trivial when you eventually hit the physical limits of vertical scaling.'
+  },
+  'Circuit Breaker Pattern': {
+    overview: 'A circuit breaker prevents an app from repeatedly trying to execute an operation that is likely to fail. It detects failures and "opens" the circuit to fail fast without overloading downstream services.',
+    tip: 'Combine circuit breakers with fallbacks (returning default or cached data) to provide graceful degradation during partial system outages.'
+  },
+  'Message Queue vs Event Bus': {
+    overview: 'Queues provide point-to-point communication where one consumer processes each message (load balancing). Event buses provide publish-subscribe where multiple consumers receive every event (fan-out).',
+    tip: 'Use RabbitMQ for traditional task queues where routing matters, and Kafka for event sourcing or log-based pub/sub with high throughput.'
+  },
+  'CQRS at Scale': {
+    overview: 'Command Query Responsibility Segregation (CQRS) separates the models used for updating data (Commands) from those used for reading data (Queries), often using different databases for each.',
+    tip: 'CQRS inherently introduces eventual consistency between the write and read sides. Your UI must be designed to handle this delay gracefully.'
+  }
+};
+
+function openTopicPopup(t, pid) {
+  const overlay = document.getElementById('topicPopup');
+  const pillar = PILLARS[pid];
+  const accent = { api: 'var(--coral)', db: 'var(--gold)', scale: 'var(--teal)' }[pid];
+  const accentRgb = { api: '232,130,106', db: '212,168,67', scale: '78,205,196' }[pid];
+
+  const kps = TOPIC_KEY_POINTS[t.name] || [];
+  const extra = (typeof TOPIC_EXTRA !== 'undefined' && TOPIC_EXTRA[t.name]) ? TOPIC_EXTRA[t.name] : {};
+  const tagHtml = (t.tags || []).map(tag =>
+    `<span class="t-tag tag-${tag}">${tag}</span>`
+  ).join('');
+
+  // Header
+  overlay.querySelector('.tpop-accent-bar').style.background =
+    `linear-gradient(90deg, ${accent}, rgba(${accentRgb},0.2))`;
+  overlay.querySelector('.tpop-eyebrow').textContent = pillar.name;
+  overlay.querySelector('.tpop-title').textContent = t.name;
+  overlay.querySelector('.tpop-title').style.color = accent;
+
+  // Overview
+  const overviewEl = overlay.querySelector('.tpop-overview');
+  overviewEl.textContent = extra.overview || t.desc;
+  overviewEl.style.borderLeftColor = accent;
+
+  // Tags
+  overlay.querySelector('.tpop-tags').innerHTML = tagHtml;
+
+  // Key Points
+  const kpHead = overlay.querySelector('.tpop-section-head');
+  const kpList = overlay.querySelector('.tpop-kp-list');
+  if (kps.length) {
+    kpHead.style.display = '';
+    kpList.innerHTML = kps.map(k => `<li>${escHtml(k)}</li>`).join('');
+  } else {
+    kpHead.style.display = 'none';
+    kpList.innerHTML = '';
+  }
+
+  // Pro Tip
+  const tipEl = overlay.querySelector('.tpop-tip');
+  if (extra.tip) {
+    tipEl.style.display = '';
+    tipEl.style.background = `rgba(${accentRgb},0.06)`;
+    tipEl.style.border = `1px solid rgba(${accentRgb},0.15)`;
+    tipEl.innerHTML = `<span class="tpop-tip-label" style="color:${accent}">Pro Tip</span><span>${escHtml(extra.tip)}</span>`;
+  } else {
+    tipEl.style.display = 'none';
+  }
+
+  overlay.classList.add('tpop-open');
+  document.body.style.overflow = 'hidden';
+  overlay.querySelector('.tpop-body').scrollTop = 0;
+}
+
+function closeTopicPopup() {
+  document.getElementById('topicPopup').classList.remove('tpop-open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeTopicPopup(); });
+
+function updateSeals(id, pct) {
+    const sealPerc = document.getElementById(`seal-${id}-perc`);
+    sealPerc.textContent = pct === 100 ? 'MAX' : `${pct}%`;
+}
+
+function toggleTheme() {
+  document.body.classList.toggle('light-mode');
+  const isLight = document.body.classList.contains('light-mode');
+  localStorage.setItem('mastery_theme', isLight ? 'light' : 'dark');
+}
+
 // ── COSMOS ───────────────────────────────────────────────────
 (function() {
   const canvas = document.getElementById('cosmos');
@@ -1353,5 +1955,25 @@ renderPillar('scale');
 updateSeals();
 updateGlobalStats();
 </script>
+
+<!-- TOPIC POPUP MODAL -->
+<div class="tpop-overlay" id="topicPopup" onclick="if(event.target===this)closeTopicPopup()">
+  <div class="tpop-card">
+    <button class="tpop-close" onclick="closeTopicPopup()">✕</button>
+    <div class="tpop-card-header">
+      <div class="tpop-eyebrow"></div>
+      <div class="tpop-title"></div>
+      <div class="tpop-accent-bar"></div>
+    </div>
+    <div class="tpop-body">
+      <div class="tpop-overview"></div>
+      <div class="tpop-tags"></div>
+      <div class="tpop-section-head">Key Concepts</div>
+      <ul class="tpop-kp-list"></ul>
+      <div class="tpop-tip"></div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
